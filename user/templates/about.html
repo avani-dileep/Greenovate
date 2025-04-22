@@ -1,0 +1,102 @@
+{% load static %}
+{% include 'header.html' %}
+
+        <!-- Modal Search Start -->
+        <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-fullscreen">
+                <div class="modal-content rounded-0">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Search by keyword</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body d-flex align-items-center">
+                        <div class="input-group w-75 mx-auto d-flex">
+                            <input type="search" class="form-control p-3" placeholder="keywords" aria-describedby="search-icon-1">
+                            <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal Search End -->
+
+
+        <!-- Single Page Header start -->
+        {% load static %}
+<div class="container-fluid page-header py-5" style="height: 650px; display: flex; align-items: center; justify-content: center; flex-direction: column; background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('{% static "img/home/bannerall.jpg" %}') center center / cover no-repeat;">
+    
+    <h1 class="text-center text-white display-6">About US</h1>
+    <ol class="breadcrumb justify-content-center mb-0">
+        <li class="breadcrumb-item">
+            <a href="{% url 'user:home' %}" style="color: black;">Home</a>
+        </li>
+        <li class="breadcrumb-item active text-white">About</li>
+    </ol>
+</div>
+
+        
+        
+        <!-- Single Page Header End -->
+
+
+        <div class="container-fluid fruite py-5">
+            <div class="container py-5">
+                <div class="tab-class">
+                    <div class="row g-3 d-flex justify-content-between align-items-center">
+                        <!-- Left side: Text content -->
+                        <div class="col-lg-6 text-start">
+                            <h1 class="mb-4 text-center">Welcome to Greenovate !</h1> <!-- Heading for the platform -->
+                            <p class="lead mb-4" style="font-size: 18px; text-align: justify;">
+                                Welcome to Greenovate – your destination for eco-friendly, recycled products. We’re dedicated to promoting sustainability by offering a range of high-quality items made from recycled materials. At Greenovate, we believe in reducing waste, conserving resources, and supporting a circular economy.
+                            </p>
+                            <p class="mb-4" style="font-size: 18px; text-align: justify;">
+                                Our platform features a variety of everyday essentials, home goods, fashion items, and eco-friendly packaging, all crafted from recycled garbage. Every product you purchase helps reduce environmental impact and supports the recycling process.
+                            </p>
+                            <p class="mb-4" style="font-size: 18px; text-align: justify;">
+                                We are passionate about innovation and sustainability, collaborating with artisans and designers who transform waste into functional, stylish products. By choosing Greenovate, you are not just buying products – you are joining a movement to create a greener future.
+                            </p>
+                            <b style="font-size: 24px;">Why Choose Greenovate?</b><br><br>
+                            <ul style="font-size: 18px; text-align: justify;">
+                                <li>Eco-Friendly: Products made from recycled materials, reducing waste.</li>
+                                <li>Quality & Style: Durable, high-quality items that meet your needs.</li>
+                                <li>Support Sustainability: Every purchase helps support a greener planet.</li>
+                            </ul>
+                            <p style="font-size: 20px; text-align: justify;">
+                                Join us in making a difference. Browse our collection and help build a sustainable future with Greenovate.
+                            </p>
+                        </div>
+        
+                        <!-- Right side: Image -->
+                        <div class="col-lg-6 text-center">
+                            <img src="{% static 'img/home/aboutus.jpg' %}" class="img-fluid rounded" alt="Eco-friendly Products">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        <!-- Fruits Shop End-->
+
+
+       
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top"><i class="fa fa-arrow-up"></i></a>   
+
+        {% include 'footer.html' %}
+        {% load static %}
+
+        <!-- JavaScript Libraries -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="{% static 'lib/easing/easing.min.js' %}"></script>
+        <script src="{% static 'lib/waypoints/waypoints.min.js' %}"></script>
+        <script src="{% static 'lib/lightbox/js/lightbox.min.js' %}"></script>
+        <script src="{% static 'lib/owlcarousel/owl.carousel.min.js' %}"></script>
+        
+        <!-- Template Javascript -->
+        <script src="{% static 'js/main.js' %}"></script>
+        
+    </body>
+
+</html>

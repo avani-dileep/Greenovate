@@ -1,0 +1,72 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Residents Sign In | GreeNovate</title>
+    <link href="{% static 'css/app.css' %}" rel="stylesheet">
+    <script>
+        // Function to validate the username and password
+        function validateForm() {
+            var username = document.getElementsByName("username")[0].value;
+            var password = document.getElementsByName("password")[0].value;
+
+            // Username and password validation: both fields are required
+            if (username === "" || password === "") {
+                alert("Please fill in both fields.");
+                return false; // Prevent form submission
+            }
+
+            return true; // Allow form submission if both fields are filled
+        }
+    </script>
+</head>
+
+<body>
+    <main class="d-flex w-100" style="height: 100vh; display: flex; align-items: center;">
+        <div class="container d-flex flex-column">
+            <div class="row vh-100">
+                <div class="col-sm-10 col-md-8 col-lg-6 mx-auto d-table h-100">
+                    <div class="d-table-cell align-middle">
+                        <div class="text-center mt-4">
+                            <h1 class="h2"><b>Residents Sign in to your account</b></h1>
+                            
+                        </div>
+
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="m-sm-4">
+                                    <!-- Sign-In Form -->
+                                    <form method="POST" action="{% url 'customer:signin' %}" onsubmit="return validateForm()">
+                                        {% csrf_token %}
+                                        <div class="mb-3" style="font-weight: 600; color: #333;">
+                                            <label for="username" class="form-label">Username</label>
+                                            <input class="form-control form-control-lg" type="text" name="username" placeholder="Enter your username" required />
+                                        </div>
+                                        <div class="mb-3" style="font-weight: 600; color: #333;">
+                                            <label for="password" class="form-label">Password</label>
+                                            <input class="form-control form-control-lg" type="password" name="password" placeholder="Enter your password" required />
+                                        </div>
+                                        <div class="text-center mt-3">
+                                            <button type="submit" class="btn btn-lg btn-primary">Sign In</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-center mt-3" style="font-size: 14px;">
+                            <p>Don't have an Residents account? <a href="{% url 'customer:signup' %}" style="color: #007bff;">Sign Up now</a></p>
+                            <p>Are you Customer? <a href="{% url 'user:signin' %}" style="color:rgb(13, 190, 69);">Sign in now</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="{% static 'js/app.js' %}"></script>
+</body>
+
+</html>

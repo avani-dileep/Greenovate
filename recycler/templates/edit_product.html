@@ -1,0 +1,67 @@
+{% include 'recyclerheader.html' %}
+
+<div class="container mt-5" style="max-width: 600px;">
+    <h2 class="text-center">Edit Product</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {% if message.tags == 'error' %}alert-danger{% else %}alert-success{% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label>Recycler ID:</label>
+            <input type="number" name="recycler_id" class="form-control" value="{{ product.recycler_id }}" readonly>
+        </div>
+
+        <div class="form-group">
+            <label>Category:</label>
+            <select name="category" class="form-control">
+                <option value="paper" {% if product.category == "paper" %}selected{% endif %}>Paper</option>
+                <option value="ewaste" {% if product.category == "ewaste" %}selected{% endif %}>E-Waste</option>
+                <option value="glass" {% if product.category == "glass" %}selected{% endif %}>Glass</option>
+                <option value="plastic" {% if product.category == "plastic" %}selected{% endif %}>Plastic</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Product Name:</label>
+            <input type="text" name="name" class="form-control" value="{{ product.name }}" required>
+        </div>
+
+        <div class="form-group">
+            <label>Description:</label>
+            <textarea name="description" class="form-control" required>{{ product.description }}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Price (₹):</label>
+            <input type="text" name="price" class="form-control" value="{{ product.price }}" required>
+        </div>
+
+        <div class="form-group">
+            <label>SuperCoin Value:</label>
+            <input type="number" name="supercoin_value" class="form-control" value="{{ product.supercoin_value }}" required>
+        </div>
+
+        <div class="form-group">
+            <label>Stock Quantity:</label>
+            <input type="number" name="stock" class="form-control" value="{{ product.stock }}" required>
+        </div>
+
+        <div class="form-group">
+            <label>Product Image:</label>
+            <input type="file" name="image" class="form-control">
+            <img src="{{ product.image.url }}" class="mt-3" style="max-width: 100px;">
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block mt-3">Update Product</button>
+    </form>
+</div>
+
+{% include 'recyclerfooter.html' %}

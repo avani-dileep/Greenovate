@@ -1,0 +1,65 @@
+{% load static %}
+{% include 'aheader.html' %}
+
+<main class="content">
+    <div class="container mt-4">
+        <h2 class="text-center mb-4">Driver Complaints</h2>
+
+        {% if messages %}
+            <div class="alert alert-success">
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% if complaints %}
+            <table class="table table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Complaint</th>
+                        <th>Pickup Schedule</th>
+                        <th>Driver (Filed By)</th>
+                        <th>Submitted On</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for complaint in complaints %}
+                        <tr>
+                            <td>{{ complaint.complaint_text }}</td>
+                            <td>{{ complaint.pickup.pickup_date|date:"d/m/Y" }}</td>
+                            <td>{{ complaint.driver.name }}</td>
+                            <td>{{ complaint.submitted_at|date:"d/m/Y" }}</td>
+                            <td>
+                                {% if complaint.is_solved %}
+                                    <span class="badge bg-success">Solved</span>
+                                {% else %}
+                                    <span class="badge bg-danger">Pending</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="complaint_id" value="{{ complaint.id }}">
+                                    <button type="submit" class="btn btn-primary">
+                                        {% if complaint.is_solved %}
+                                            Mark as Pending
+                                        {% else %}
+                                            Mark as Solved
+                                        {% endif %}
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p class="text-center">No complaints found.</p>
+        {% endif %}
+    </div>
+</main>
+
+{% include 'afooter.html' %}

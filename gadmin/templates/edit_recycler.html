@@ -1,0 +1,60 @@
+{% load static %}
+{% include 'aheader.html' %}
+
+<div class="container mt-5" style="max-width: 800px; background-color: #ffffff; padding: 30px; border-radius: 10px; box-shadow: 0px 4px 10px rgba(0,0,0,0.1);">
+    <h2 class="text-center mb-4" style="color: #007bff;">✏️ Edit Recycler</h2>
+
+    <form method="post" action="{% url 'gadmin:edit_recycler' recycler.recycler_id %}" class="needs-validation" novalidate>
+        {% csrf_token %}
+
+        <div class="row">
+            <div class="col-md-6">
+                <label for="recycler_id" class="form-label"><b>Recycler ID</b></label>
+                <input type="text" class="form-control" id="recycler_id" name="recycler_id" value="{{ recycler.recycler_id }}" readonly>
+
+                <label for="name" class="form-label mt-3"><b>Name</b></label>
+                <input type="text" class="form-control" id="name" name="name" value="{{ recycler.name }}" required>
+                <div class="invalid-feedback">Recycler's name is required.</div>
+
+                <label for="email" class="form-label mt-3"><b>Email</b></label>
+                <input type="email" class="form-control" id="email" name="email" value="{{ recycler.email }}" required>
+                <div class="invalid-feedback">Enter a valid email address.</div>
+            </div>
+
+            <div class="col-md-6">
+                <label for="phone_number" class="form-label"><b>Phone Number</b></label>
+                <input type="tel" class="form-control" id="phone_number" name="phone_number" pattern="\d{10}" value="{{ recycler.phone_number }}" required>
+                <div class="invalid-feedback">Enter a valid 10-digit phone number.</div>
+
+                <label for="company_name" class="form-label mt-3"><b>Company Name</b></label>
+                <input type="text" class="form-control" id="company_name" name="company_name" value="{{ recycler.company_name }}" required>
+                <div class="invalid-feedback">Company name is required.</div>
+
+                <label for="address" class="form-label mt-3"><b>Address</b></label>
+                <textarea class="form-control" id="address" name="address" rows="3" required>{{ recycler.address }}</textarea>
+                <div class="invalid-feedback">Recycler's address is required.</div>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-4 w-100">✅ Update Recycler</button>
+    </form>
+</div>
+
+{% include 'afooter.html' %}
+
+<script>
+// Bootstrap form validation
+(function () {
+    'use strict';
+    var forms = document.querySelectorAll('.needs-validation');
+    Array.prototype.slice.call(forms).forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+        }, false);
+    });
+})();
+</script>

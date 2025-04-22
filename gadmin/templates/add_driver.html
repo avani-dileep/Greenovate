@@ -1,0 +1,87 @@
+{% load static %}
+{% include 'aheader.html' %}
+
+<div class="container mt-5" style="max-width: 800px; background-color: #ffffff; padding: 30px; border-radius: 10px; box-shadow: 0px 4px 10px rgba(0,0,0,0.1);">
+    <h2 class="text-center mb-4" style="color: #007bff;">🚖 Add Driver Details</h2>
+
+    <form method="post" action="{% url 'gadmin:add_driver' %}" class="needs-validation" novalidate>
+        {% csrf_token %}
+
+        <div class="row">
+            <div class="col-md-6">
+                <label for="driver_id" class="form-label"><b>Driver ID</b></label>
+                <input type="text" class="form-control" id="driver_id" name="driver_id" required pattern="GC\d{3,}" title="Enter a valid driver ID (e.g., GC001)">
+                <div class="invalid-feedback">Enter a valid driver ID (e.g., GC001).</div>
+
+                <label for="name" class="form-label mt-3"><b>Name</b></label>
+                <input type="text" class="form-control" id="name" name="name" required>
+                <div class="invalid-feedback">Driver's name is required.</div>
+
+                <label for="aadhar_number" class="form-label mt-3"><b>Aadhar Number</b></label>
+                <input type="text" class="form-control" id="aadhar_number" name="aadhar_number" pattern="\d{12}" required>
+                <div class="invalid-feedback">Enter a valid 12-digit Aadhar number.</div>
+
+                <label for="address" class="form-label mt-3"><b>Address</b></label>
+                <textarea class="form-control" id="address" name="address" rows="3" required></textarea>
+                <div class="invalid-feedback">Driver's address is required.</div>
+            </div>
+
+            <div class="col-md-6">
+                <label for="driving_license_number" class="form-label"><b>Driving License Number</b></label>
+                <input type="text" class="form-control" id="driving_license_number" name="driving_license_number" required>
+                <div class="invalid-feedback">Enter the license number.</div>
+
+                <label for="phone_number" class="form-label mt-3"><b>Phone Number</b></label>
+                <input type="tel" class="form-control" id="phone_number" name="phone_number" pattern="\d{10}" required>
+                <div class="invalid-feedback">Enter a valid 10-digit phone number.</div>
+
+                <label for="password" class="form-label mt-3"><b>Password</b></label>
+                <input type="password" class="form-control" id="password" name="password" minlength="8" required onkeyup="checkPasswordStrength()">
+                <div class="invalid-feedback">Password must be at least 8 characters long.</div>
+                <small id="passwordHelp" class="form-text text-muted">Use a strong password with numbers & special characters.</small>
+                <div id="passwordStrength"></div>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-4 w-100">➕ Add Driver</button>
+    </form>
+</div>
+
+{% include 'afooter.html' %}
+
+<script>
+// Bootstrap form validation
+(function () {
+    'use strict';
+    var forms = document.querySelectorAll('.needs-validation');
+
+    Array.prototype.slice.call(forms).forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+        }, false);
+    });
+})();
+
+// Password Strength Checker
+function checkPasswordStrength() {
+    let password = document.getElementById("password").value;
+    let strengthBadge = document.getElementById("passwordStrength");
+    let strength = "Weak";
+    let color = "red";
+
+    if (password.length >= 8) {
+        if (/[a-z]/.test(password) && /[A-Z]/.test(password) && /\d/.test(password) && /[^a-zA-Z0-9]/.test(password)) {
+            strength = "Strong";
+            color = "green";
+        } else if (/[a-z]/.test(password) && /\d/.test(password)) {
+            strength = "Medium";
+            color = "orange";
+        }
+    }
+    strengthBadge.innerHTML = `<p style="color: ${color}; font-weight: bold;">${strength}</p>`;
+}
+</script>

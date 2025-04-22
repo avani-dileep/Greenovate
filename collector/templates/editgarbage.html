@@ -1,0 +1,37 @@
+{% load static %}
+{% include 'cheader.html' %}
+
+<div style="width: 100%; max-width: 800px; margin: 20px auto; background-color: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+    <h2 style="text-align: center;">Edit Pickup Schedule</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        <div>
+            <label for="pickup_date">Pickup Date:</label>
+            <input type="date" id="pickup_date" name="pickup_date" value="{{ schedule.pickup_date }}">
+        </div>
+        <div>
+            <label for="frequency">Frequency:</label>
+            <input type="text" id="frequency" name="frequency" value="{{ schedule.frequency }}">
+        </div>
+        <div>
+            <label for="duration">Duration (Months):</label>
+            <input type="number" id="duration" name="duration" value="{{ schedule.duration }}">
+        </div>
+        <div>
+            <label for="total_payment">Total Payment:</label>
+            <input type="text" id="total_payment" name="total_payment" value="{{ schedule.total_payment }}">
+        </div>
+        <div>
+            <label for="weight">Weight (kg):</label>
+            <input type="number" id="weight" name="weight" value="{{ schedule.weight }}">
+        </div>
+        <div>
+            <label for="subscription_end_date">Subscription End Date:</label>
+            <input type="date" id="subscription_end_date" name="subscription_end_date" value="{{ schedule.subscription_end_date }}">
+        </div>
+        <button type="submit">Save Changes</button>
+    </form>
+    
+
+{% include 'cfooter.html' %}

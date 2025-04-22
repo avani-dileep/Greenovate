@@ -1,0 +1,88 @@
+{% load static %}
+{% include 'recyclerheader.html' %}
+
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+        font-family: Arial, sans-serif;
+    }
+    th, td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: center;
+    }
+    th {
+        background-color: #4CAF50;
+        color: white;
+        font-weight: bold;
+    }
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+    tr:hover {
+        background-color: #ddd;
+    }
+    h2 {
+        color: #333;
+        text-align: center;
+        margin-top: 20px;
+    }
+</style>
+
+<h2>Customers Who Have Placed Orders</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Address</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in ordered_users %}
+        <tr>
+            <td>{{ user.name }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.phone }}</td>
+            <td>{{ user.address }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4" style="color: red; font-weight: bold;">No users have placed orders yet.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h2>Residents Who Have Placed Orders From Trinity Apartments</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Flat Number</th>
+            <th>Building Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in customer_ordered_users %}
+        <tr>
+            <td>{{ user.user.username }}</td>
+            <td>{{ user.user.email }}</td>
+            <td>{{ user.user.phone }}</td>
+            <td>{{ user.flat_number }}</td>
+            <td>{{ user.user.building }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5" style="color: red; font-weight: bold;">No customer users have placed orders yet.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% include 'recyclerfooter.html' %}

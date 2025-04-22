@@ -1,0 +1,90 @@
+{% load static %}
+{% include 'cheader.html' %}
+
+<main class="content">
+    <div class="container-fluid p-0">
+
+        <h1 class="h3 mb-3"><strong>User</strong> Dashboard</h1>
+
+        <div class="row">
+            <div class="col-md-4">
+                <!-- Placeholder for future content if needed -->
+            </div>
+        </div>
+
+        <!-- Adding Garbage, Complaint, Profile, View Garbage, View Complaint, and Shop Now Links -->
+        <div class="row mt-4">
+            <!-- Add Garbage Section -->
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm hover-shadow-lg border-light rounded">
+                    <div class="card-body text-center">
+                        <h5 class="card-title font-weight-bold text-primary">Add Garbage</h5>
+                        <p class="text-muted mb-3">Submit new garbage data to improve waste management.</p>
+                        <a href="{% url 'customer:addgarbage' %}" class="btn btn-primary w-100 py-2 font-weight-bold">Add Garbage</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Complaint Section -->
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm hover-shadow-lg border-light rounded">
+                    <div class="card-body text-center">
+                        <h5 class="card-title font-weight-bold text-warning">Add Complaint</h5>
+                        <p class="text-muted mb-3">Submit a complaint regarding the service for quick resolution.</p>
+                        <a href="{% url 'customer:addcomplaint' %}" class="btn btn-warning w-100 py-2 font-weight-bold">Add Complaint</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Section -->
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm hover-shadow-lg border-light rounded">
+                    <div class="card-body text-center">
+                        <h5 class="card-title font-weight-bold text-success">Profile</h5>
+                        <p class="text-muted mb-3">View and update your personal details and preferences.</p>
+                        <a href="{% url 'customer:profile' %}" class="btn btn-success w-100 py-2 font-weight-bold">View Profile</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- New Sections: View Garbage, View Complaint, Shop Now -->
+        <div class="row mt-4">
+            <!-- View Garbage Section -->
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm hover-shadow-lg border-light rounded">
+                    <div class="card-body text-center">
+                        <h5 class="card-title font-weight-bold text-info">View Garbage</h5>
+                        <p class="text-muted mb-3">Check the list of submitted garbage records.</p>
+                        <a href="{% url 'customer:viewgarbage' %}" class="btn btn-info w-100 py-2 font-weight-bold">View Garbage</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- View Complaint Section -->
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm hover-shadow-lg border-light rounded">
+                    <div class="card-body text-center">
+                        <h5 class="card-title font-weight-bold text-danger">View Complaints</h5>
+                        <p class="text-muted mb-3">View the status of your submitted complaints.</p>
+                        <a href="{% url 'customer:viewcomplaint' %}" class="btn btn-danger w-100 py-2 font-weight-bold">View Complaints</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Shop Now Section -->
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm hover-shadow-lg border-light rounded">
+                    <div class="card-body text-center">
+                        <h5 class="card-title font-weight-bold text-success">Shop Now</h5>
+                        <p class="text-muted mb-3">Visit the shop for related products and services.</p>
+                        <a href="{% url 'user:home' %}" class="btn btn-success w-100 py-2 font-weight-bold">Shop Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+{% include 'cfooter.html' %}

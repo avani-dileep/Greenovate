@@ -1,0 +1,62 @@
+{% load static %}
+{% include 'aheader.html' %}
+
+<div class="container mt-5" style="max-width: 1200px; margin: 0 auto; padding: 30px; background-color: #ffffff; border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);">
+    <h2 class="text-center mb-4" style="color: #333; font-weight: bold; font-size: 28px;">🚗 Driver List</h2>
+
+    <!-- Flash Messages -->
+    {% if messages %}
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
+            {% for message in messages %}
+                <p class="mb-0">{{ message }}</p>
+            {% endfor %}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endif %}
+
+    <div class="table-responsive">
+        <table class="table table-hover text-center align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Aadhar Number</th>
+                    <th>Driving License</th>
+                    <th>Phone Number</th>
+                    <th>Address</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for driver in drivers %}
+                <tr>
+                    <td><strong>{{ driver.driver_id }}</strong></td>
+                    <td>{{ driver.name }}</td>
+                    <td>{{ driver.aadhar_number }}</td>
+                    <td>{{ driver.driving_license_number }}</td>
+                    <td>{{ driver.phone_number }}</td>
+                    <td>{{ driver.address }}</td>
+                    <td>
+                        <div class="btn-group" role="group">
+                            <a href="{% url 'gadmin:edit_driver' driver.driver_id %}" class="btn btn-warning btn-sm px-3">✏️ Edit</a>
+                            <a href="{% url 'gadmin:delete_driver' driver.driver_id %}" class="btn btn-danger btn-sm px-3" onclick="return confirm('Are you sure you want to delete this driver?');">🗑️ Delete</a>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" class="text-center text-muted">🚫 No drivers found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="text-center mt-4">
+        <a href="{% url 'gadmin:add_driver' %}" class="btn btn-primary px-4 py-2" style="background-color: #007bff; border-color: #007bff; font-size: 18px;">
+            ➕ Add New Driver
+        </a>
+    </div>
+</div>
+
+{% include 'afooter.html' %}

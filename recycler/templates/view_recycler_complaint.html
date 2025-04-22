@@ -1,0 +1,55 @@
+{% load static %}
+{% include 'recyclerheader.html' %}
+
+<main class="content">
+    <div style="max-width: 900px; margin: auto; padding: 20px; background: #fff; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+        <h2 style="text-align: center; color: #333;">My Complaints</h2>
+
+        {% if complaints %}
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Pickup Date</th>
+                        <th>Garbage Type</th>
+                        <th>Weight (kg)</th>
+                        <th>Complaint</th>
+                        <th>Status</th>
+                        <th>Submitted On</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for complaint in complaints %}
+                        {% for type, weight in complaint.recycler_request.garbage_details.items %}
+                            <tr>
+                                {% if forloop.first %}
+                                    <td rowspan="{{ complaint.recycler_request.garbage_details|length }}">
+                                        {{ complaint.recycler_request.pickup_date|date:"d/m/Y" }}
+                                    </td>
+                                {% endif %}
+                                <td>{{ type|capfirst }}</td>
+                                <td>{{ weight }} kg</td>
+                                {% if forloop.first %}
+                                    <td rowspan="{{ complaint.recycler_request.garbage_details|length }}">{{ complaint.complaint_text }}</td>
+                                    <td rowspan="{{ complaint.recycler_request.garbage_details|length }}">
+                                        {% if complaint.is_solved %}
+                                            <span class="badge bg-success">Solved</span>
+                                        {% else %}
+                                            <span class="badge bg-danger">Not Solved</span>
+                                        {% endif %}
+                                    </td>
+                                    <td rowspan="{{ complaint.recycler_request.garbage_details|length }}">
+                                        {{ complaint.filed_at|date:"d/m/Y " }}
+                                    </td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p class="text-center">No complaints submitted yet.</p>
+        {% endif %}
+    </div>
+</main>
+
+{% include 'recyclerfooter.html' %}

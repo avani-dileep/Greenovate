@@ -1,0 +1,47 @@
+{% load static %}
+{% include 'cheader.html' %}
+
+<main class="content">
+    <div style="text-align: center; padding: 20px;">
+        <h2 style="font-size: 2rem; color: #333;">View Complaints</h2>
+        
+        {% if complaints %}
+            <table style="width: 100%; border-collapse: collapse; margin-top: 20px; background-color: #f9f9f9;">
+                <thead>
+                    <tr style="background-color: #007bff; color: #fff; text-align: left;">
+                        <th style="border: 1px solid #ddd; padding: 12px; font-weight: bold;">Complaint</th>
+                        
+                        
+                        <th style="border: 1px solid #ddd; padding: 12px; font-weight: bold;">Submitted On</th>
+                        <th style="border: 1px solid #ddd; padding: 12px; font-weight: bold;">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for complaint in complaints %}
+                        <tr style="transition: background-color 0.3s ease;">
+                            <td style="border: 1px solid #ddd; padding: 10px; color: #333;">
+                                {{ complaint.complaint_text }}
+                            </td>
+                            <td style="border: 1px solid #ddd; padding: 10px; color: #333;">
+                                {{ complaint.created_at }}
+                            </td>
+                            <td style="border: 1px solid #ddd; padding: 10px; color: #333;">
+                                {% if complaint.is_solved %}
+                                    <span style="color: #28a745; font-weight: bold;">Solved</span>
+                                {% else %}
+                                    <span style="color: #dc3545; font-weight: bold;">Pending</span>
+                                {% endif %}
+                            </td>
+                            
+                           
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p style="font-size: 1.2rem; color: #888;">No complaints found.</p>
+        {% endif %}
+    </div>
+</main>
+
+{% include 'cfooter.html' %}

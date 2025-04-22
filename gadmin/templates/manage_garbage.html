@@ -1,0 +1,107 @@
+{% load static %}
+{% include 'aheader.html' %}
+
+<div class="container mt-4" style="max-width: 1200px; margin: 0 auto; padding: 30px; background-color: #ffffff; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+    <h3 class="text-center mb-3" style="color: #333; font-weight: bold; font-size: 28px;">🗑️ Manage Garbage Collection</h3>
+
+    <!-- Flash Messages -->
+    {% if messages %}
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
+            {% for message in messages %}
+                <p class="mb-0">{{ message }}</p>
+            {% endfor %}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endif %}
+
+    <!-- Scrollable Table -->
+    <div class="table-container">
+        <table class="table table-bordered table-hover text-center align-middle">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Flat No.</th>
+                    <th>Building</th>
+                    <th>Phone</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Frequency</th>
+                    <th>Payment</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for schedule in schedules %}
+                <tr>
+                    <td>{{ schedule.user.username }}</td>
+                    <td>{{ schedule.user.flat_number }}</td>
+                    <td>{{ schedule.user.building }}</td>
+                    <td>{{ schedule.user.phone }}</td>
+                    <td>{{ schedule.pickup_date }}</td>
+                    <td>{{ schedule.subscription_end_date|date:"d/m/Y" }}</td>
+                    <td><span class="badge bg-primary">{{ schedule.get_frequency_display }}</span></td>
+                    <td>
+                        {% if schedule.payment_status == 1 %}
+                            <span class="badge bg-success">Paid</span>
+                        {% else %}
+                            <span class="badge bg-danger">Not Paid</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'gadmin:assign_driver' schedule.id %}" class="btn btn-sm btn-primary">
+                            🚚 Assign
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="9" class="text-center text-muted">🚫 No garbage schedules found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Styling -->
+<style>
+
+    html, body {
+        height: auto;
+        overflow-y: auto; /* Allow vertical scrolling */
+    }
+    .table-container {
+        max-height: 500px; /* Adjust the height */
+        overflow-y: auto;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 10px;
+    }
+
+    .table {
+        width: 100%;
+        background-color: #fff;
+    }
+
+    thead {
+        position: sticky;
+        top: 0;
+        background-color: #343a40;
+        color: white;
+        z-index: 2;
+    }
+
+    .status-badge {
+        display: inline-block;
+        padding: 5px 10px;
+        border-radius: 5px;
+        color: white;
+        font-weight: bold;
+    }
+
+    .pending { background-color: #ffc107; }
+    .approved { background-color: #007bff; }
+    .completed { background-color: #28a745; }
+</style>
+
+{% include 'afooter.html' %}

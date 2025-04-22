@@ -1,0 +1,144 @@
+{% load static %}
+{% include 'aheader.html' %}
+
+<div class="container mt-4">
+    <div class="page-inner">
+        <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
+            <div>
+                <h3 class="fw-bold mb-3">Admin Dashboard</h3>
+                <h6 class="op-7 mb-2">Manage Collectors, Recyclers, Garbage Pickup, and More</h6>
+            </div>
+        </div>
+
+        <!-- Dashboard Cards -->
+        <div class="row">
+            <!-- Manage Collectors -->
+            <div class="col-sm-6 col-md-4">
+                <a href="{% url 'gadmin:add_driver' %}" class="card card-stats card-round text-decoration-none">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-icon">
+                                <div class="icon-big text-center icon-primary bubble-shadow-small">
+                                    <i class="fas fa-user-tie"></i>
+                                </div>
+                            </div>
+                            <div class="col col-stats ms-3 ms-sm-0">
+                                <div class="numbers">
+                                    <p class="card-category">Manage Collectors</p>
+                                    <h4 class="card-title">View & Assign</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Manage Recyclers -->
+            <div class="col-sm-6 col-md-4">
+                <a href="{% url 'gadmin:add_recycler' %}" class="card card-stats card-round text-decoration-none">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-icon">
+                                <div class="icon-big text-center icon-success bubble-shadow-small">
+                                    <i class="fas fa-recycle"></i>
+                                </div>
+                            </div>
+                            <div class="col col-stats ms-3 ms-sm-0">
+                                <div class="numbers">
+                                    <p class="card-category">Manage Recyclers</p>
+                                    <h4 class="card-title">Monitor & Assign</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Garbage Pickup Requests -->
+            <div class="col-sm-6 col-md-4">
+                <a href="{% url 'gadmin:manage_garbage' %}" class="card card-stats card-round text-decoration-none">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-icon">
+                                <div class="icon-big text-center icon-warning bubble-shadow-small">
+                                    <i class="fas fa-dumpster"></i>
+                                </div>
+                            </div>
+                            <div class="col col-stats ms-3 ms-sm-0">
+                                <div class="numbers">
+                                    <p class="card-category">Garbage Pickup</p>
+                                    <h4 class="card-title">Pending Requests</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- View Garbage Requests -->
+            <div class="col-sm-6 col-md-4">
+                <a href="{% url 'gadmin:manage_recycler_requests' %}" class="card card-stats card-round text-decoration-none">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-icon">
+                                <div class="icon-big text-center icon-danger bubble-shadow-small">
+                                    <i class="fas fa-trash-alt"></i>
+                                </div>
+                            </div>
+                            <div class="col col-stats ms-3 ms-sm-0">
+                                <div class="numbers">
+                                    <p class="card-category">Garbage Requests</p>
+                                    <h4 class="card-title">Track & Manage</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- View Recycled Products -->
+            <div class="col-sm-6 col-md-4">
+                <a href="{% url 'gadmin:view_recycledproducts' %}" class="card card-stats card-round text-decoration-none">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-icon">
+                                <div class="icon-big text-center icon-info bubble-shadow-small">
+                                    <i class="fas fa-shopping-bag"></i>
+                                </div>
+                            </div>
+                            <div class="col col-stats ms-3 ms-sm-0">
+                                <div class="numbers">
+                                    <p class="card-category">Recycled Products</p>
+                                    <h4 class="card-title">View & Sell</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Complaints Management -->
+            <div class="col-sm-6 col-md-4">
+                <a href="{% url 'gadmin:view_residents_complaint' %}" class="card card-stats card-round text-decoration-none">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-icon">
+                                <div class="icon-big text-center icon-secondary bubble-shadow-small">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </div>
+                            </div>
+                            <div class="col col-stats ms-3 ms-sm-0">
+                                <div class="numbers">
+                                    <p class="card-category">Complaints</p>
+                                    <h4 class="card-title">Handle Issues</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div> <!-- End of row -->
+    </div>
+</div>
+
+{% include 'afooter.html' %}

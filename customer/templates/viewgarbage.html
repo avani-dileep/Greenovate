@@ -1,0 +1,63 @@
+{% load static %}
+{% include 'cheader.html' %}
+
+<main class="content">
+<div style="width: 100%; min-height: 70vh; display: flex; justify-content: center; align-items: center; background: linear-gradient(120deg, #e6f7ff, #ffffff); font-family: Arial, sans-serif; padding: 20px;">
+
+    <div style="width: 100%; max-width: 1000px; background: #fff; border-radius: 15px; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); padding: 30px;">
+
+        <!-- Points and Supercoins Section -->
+        <div style="margin-bottom: 30px; text-align: center;">
+            <h3 style="font-size: 20px; color: #333; font-weight: bold;">Your Account Overview</h3>
+            <p style="font-size: 18px; color: #333; margin: 5px;">Points: <strong>{{ user_points }}</strong></p>
+            <p style="font-size: 18px; color: #333; margin: 5px;">Supercoins: <strong>{{ user_supercoins }}</strong></p>
+        </div>
+
+        <!-- Title -->
+        <h2 style="text-align: center; color: #333; font-size: 28px; font-weight: bold; margin-bottom: 20px;">
+            Your Garbage Pickup Schedule
+        </h2>
+
+        <!-- Table to Display Pickup Schedules -->
+        <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+            <thead>
+                <tr>
+                    <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Pickup Date Start</th>
+                    <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Frequency</th>
+                    <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Duration (Months)</th>
+                    <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Subscription End Date</th>
+                    <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Total Payment</th>
+                    <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Paid Status</th>
+                    <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Assigned Driver</th>
+                    <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Status</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                {% for schedule in user_schedules %}
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">{{ schedule.pickup_date }}</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">{{ schedule.frequency }}</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">{{ schedule.duration }}</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">{{ schedule.subscription_end_date_display }}</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">₹{{ schedule.total_payment }}</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">{{ schedule.payment_status }}</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">{{ schedule.assigned_driver }}</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">{{ schedule.status }}</td>
+                       
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="8" style="padding: 10px; text-align: center; border: 1px solid #ddd;">
+                            No schedules found.
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+</div>
+</main>
+
+{% include 'cfooter.html' %}

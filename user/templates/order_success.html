@@ -1,0 +1,99 @@
+{% load static %}
+{% include 'header.html' %}
+
+<!-- Modal Search Start -->
+<div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"></div>
+<!-- Modal Search End -->
+
+<!-- Single Page Header Start -->
+<div class="container-fluid page-header"></div>
+<!-- Single Page Header End -->
+<!-- Order Success Page Start -->
+<div class="container py-5">
+    <h1 class="mb-4 text-center">Order Success</h1>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped text-center">
+            <thead class="table-dark">
+                <tr>
+                    <th>Order ID</th>
+                    <th>Payment Method</th>
+                    <th>Status</th>
+                    <th>Total</th>
+                    <th>Date</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td>#{{ order.id }}</td>
+                    <td>{{ order.payment_method }}</td>
+                    <td>
+                        <span class="badge 
+                            {% if order.status == 'complete' %} bg-success 
+                            {% elif order.status == 'pending' %} bg-warning text-dark 
+                            {% else %} bg-danger {% endif %}">
+                            {{ order.status|title }}
+                        </span>
+                    </td>
+                    <td>
+                        {% if order.payment_method == "Supercoins" %}
+                            🪙 {{ order.total_supercoins_used }} Supercoins
+                        {% else %}
+                            ₹{{ order.total_price }}
+                        {% endif %}
+                    </td>
+                    <td>{{ order.created_at|date:"F j, Y" }}</td>
+                    <td>
+                        <button class="btn btn-primary btn-sm" data-bs-toggle="collapse" data-bs-target="#order{{ order.id }}">
+                            View Items
+                        </button>
+                    </td>
+                </tr>
+                <tr id="order{{ order.id }}" class="collapse">
+                    <td colspan="6">
+                        <h5>Order Items:</h5>
+                        <ul class="list-group">
+                            {% for item in order.items %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                {{ item.quantity }} × {{ item.product_name }}
+                                <span>
+                                    {% if order.payment_method == "Supercoins" %}
+                                        🪙 {{ item.total_supercoins }} Supercoins
+                                    {% else %}
+                                        ₹{{ item.total_price }}
+                                    {% endif %}
+                                </span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center">No orders found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<!-- Order Success Page End -->
+
+{% include 'footer.html' %}
+
+<!-- JavaScript Libraries -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'lib/easing/easing.min.js' %}"></script>
+<script src="{% static 'lib/waypoints/waypoints.min.js' %}"></script>
+<script src="{% static 'lib/lightbox/js/lightbox.min.js' %}"></script>
+<script src="{% static 'lib/owlcarousel/owl.carousel.min.js' %}"></script>
+
+<!-- Template Javascript -->
+<script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

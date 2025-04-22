@@ -1,0 +1,265 @@
+{% load static %}
+{% include 'header.html' %}
+
+<!-- Checkout Page Start -->
+
+<!-- Modal Search Start -->
+<div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"></div>
+<!-- Modal Search End -->
+
+<!-- Single Page Header Start -->
+<div class="container-fluid page-header"></div>
+<!-- Single Page Header End -->
+<!-- Checkout Page Start -->
+<div class="container-fluid py-5">
+    <div class="container py-5">
+        <h1 class="mb-4 text-center">Billing Details</h1>
+        <form method="POST" id="checkout-form">
+            {% csrf_token %}
+            <div class="row g-4">
+                <!-- User Details Section -->
+                <div class="col-md-12 col-lg-6 col-xl-7">
+                    <h3 class="mb-3">User Details</h3>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-item">
+                                <label class="form-label my-2">Full Name<sup>*</sup></label>
+                                <input type="text" name="full_name" class="form-control form-control-sm"
+                                       value="{% if user_details %}{{ user_details.name }}{% else %}{{ user.username }}{% endif %}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-item">
+                                <label class="form-label my-2">Mobile<sup>*</sup></label>
+                                <input type="tel" name="mobile" class="form-control form-control-sm"
+                                       value="{% if user_details %}{{ user_details.phone }}{% else %}{{ user.phone }}{% endif %}" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-item">
+                        <label class="form-label my-2">Address<sup>*</sup></label>
+                        <input type="text" name="address" class="form-control form-control-sm"
+                               value="{% if user_details %}{{ user_details.address }}{% else %}Not Available{% endif %}" required>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-item">
+                                <label class="form-label my-2">Flat Number<sup>*</sup></label>
+                                <input type="text" name="flat_number" class="form-control form-control-sm"
+                                       value="{% if user_details %}Not Available{% else %}{{ user.flat_number }}{% endif %}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-item">
+                                <label class="form-label my-2">Building<sup>*</sup></label>
+                                <input type="text" name="building" class="form-control form-control-sm"
+                                       value="{% if user_details %}Not Available{% else %}{{ user.building }}{% endif %}" required>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-item">
+                        <label class="form-label my-2">Payment Method<sup>*</sup></label>
+                        <select name="payment_method" class="form-control form-control-sm" id="payment-method" required>
+                            <option value="" disabled selected>Select Payment Option</option>
+                            <option value="COD">Cash on Delivery</option>
+                            <option value="Online">Online Payment</option>
+                            
+                            <option value="Supercoins">Supercoins Payment (Available: {{ user_profile.supercoins }})</option>
+                       
+                        
+                        </select>
+                    </div>
+
+                  
+                    <!-- Online Payment Card Details -->
+                    <div id="online-payment-details" style="display: none;">
+                        <h4 class="mb-3">Card Details</h4>
+                        <div class="form-item">
+                            <label class="form-label my-2">Card Number<sup>*</sup></label>
+                            <input type="text" name="card_number" class="form-control form-control-sm" placeholder="Card Number" id="card_number">
+                        </div>
+                        <div class="form-item">
+                            <label class="form-label my-2">CVV<sup>*</sup></label>
+                            <input type="text" name="cvv" class="form-control form-control-sm" placeholder="CVV" id="cvv">
+                        </div>
+                        <div class="form-item">
+                            <label class="form-label my-2">Expiry Date<sup>*</sup></label>
+                            <input type="text" name="expiry_date" class="form-control form-control-sm" placeholder="MM/YY" id="expiry_date">
+                        </div>
+                        <div class="form-item">
+                            <label class="form-label my-2">Cardholder Name<sup>*</sup></label>
+                            <input type="text" name="cardholder_name" class="form-control form-control-sm" placeholder="Cardholder Name" id="cardholder_name">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Order Summary Section -->
+                <div class="col-md-12 col-lg-6 col-xl-5">
+                    <h3 class="mb-4">Your Order</h3>
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Name</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in cart_items %}
+                                <tr>
+                                    <td>
+                                        <img src="{{ item.product.image.url }}" class="img-fluid rounded-circle"
+                                             style="width: 50px; height: 50px;" alt="{{ item.product.name }}">
+                                    </td>
+                                    <td>{{ item.product.name }}</td>
+                                    <td>₹{{ item.product.price }}</td>
+                                    <td>{{ item.quantity }}</td>
+                                    <td>₹{{ item.total_price }}</td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="5" class="text-center py-3">Your cart is empty.</td>
+                                </tr>
+                                {% endfor %}
+                                <tr>
+                                    <td colspan="4" class="text-end py-3"><strong>Subtotal</strong></td>
+                                    <td class="py-3"><strong>₹{{ total_price }}</strong></td>
+                                </tr>
+
+                                <tr>
+                                <td colspan="5" class="text-end py-3"><strong>Total Supercoins Required</strong></td>
+                                <td class="py-3"><strong>{{ total_supercoins }}</strong></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Place Order Button -->
+                    <div class="text-center pt-3">
+                        <button type="submit" class="btn btn-primary w-100 py-2 text-uppercase">
+                            Place Order
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- Checkout Page End -->
+<!-- Checkout Page End -->
+
+<!-- Back to Top -->
+<a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top"><i class="fa fa-arrow-up"></i></a>
+
+{% include 'footer.html' %}
+{% load static %}
+
+<!-- JavaScript Libraries -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'lib/easing/easing.min.js' %}"></script>
+<script src="{% static 'lib/waypoints/waypoints.min.js' %}"></script>
+<script src="{% static 'lib/lightbox/js/lightbox.min.js' %}"></script>
+<script src="{% static 'lib/owlcarousel/owl.carousel.min.js' %}"></script>
+
+<!-- Template Javascript -->
+<script src="{% static 'js/main.js' %}"></script>
+<script>
+    document.getElementById('payment-method').addEventListener('change', function() {
+        var paymentMethod = this.value;
+        document.getElementById('online-payment-details').style.display = (paymentMethod === 'Online') ? 'block' : 'none';
+    });
+
+    document.getElementById('checkout-form').addEventListener('submit', function(e) {
+        var paymentMethod = document.getElementById('payment-method').value;
+        var isValid = true;
+
+        if (paymentMethod === 'Online') {
+            var cardNumber = document.getElementById('card_number').value;
+            var cvv = document.getElementById('cvv').value;
+            var expiryDate = document.getElementById('expiry_date').value;
+            var cvvError = document.getElementById('cvv-error');
+
+            // Clear previous error messages
+            cvvError.textContent = '';
+
+            if (!/^\d{16}$/.test(cardNumber)) {
+                alert("Card number must be 16 digits.");
+                e.preventDefault();
+                return;
+            }
+
+            if (!/^\d{3,4}$/.test(cvv)) {
+                cvvError.textContent = "CVV must be exactly 3 or 4 digits.";
+                isValid = false;
+            }
+
+            if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(expiryDate)) {
+                alert("Invalid expiry date format. Use MM/YY.");
+                e.preventDefault();
+                return;
+            }
+
+            // Check if expiry date is in the future
+            var [expMonth, expYear] = expiryDate.split('/').map(Number);
+            var currentYear = new Date().getFullYear() % 100; // Get last two digits of the current year
+            var currentMonth = new Date().getMonth() + 1; // JavaScript months are 0-based
+
+            if (expYear < currentYear || (expYear === currentYear && expMonth < currentMonth)) {
+                alert("Card expiry date must be in the future.");
+                e.preventDefault();
+                return;
+            }
+
+            if (!isValid) {
+                e.preventDefault();
+            }
+        }
+    });
+
+   
+        document.getElementById("checkout-form").addEventListener("submit", function (e) {
+            e.preventDefault();  // Prevent default form submission
+        
+            let formData = new FormData(this);
+            
+            fetch("{% url 'user:checkout' %}", {
+                method: "POST",
+                body: formData,
+                headers: {
+                    "X-Requested-With": "XMLHttpRequest",
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "error") {
+                    if (data.errors) {
+                        // Show alert box with errors
+                        let errorMsg = Object.values(data.errors).join("\n");
+                        alert(errorMsg);
+                    } else {
+                        alert(data.message); // Generic error message
+                    }
+                } else {
+                    alert(data.message); // Success message
+                    window.location.href = "{% url 'user:order_success' %}";
+                }
+            })
+            .catch(error => {
+                alert("Something went wrong. Please try again.");
+            });
+        });
+       
+            
+        
+</script>
+
+
+</body>
+</html>

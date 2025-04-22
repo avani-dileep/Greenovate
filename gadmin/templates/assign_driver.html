@@ -1,0 +1,55 @@
+{% load static %}
+{% include 'aheader.html' %}
+
+<div class="container mt-5" style="max-width: 600px; padding: 30px; background: #ffffff; border-radius: 10px; box-shadow: 0px 4px 12px rgba(0,0,0,0.1);">
+    <h2 class="text-center mb-4" style="color: #333; font-weight: bold;">🚛 Assign Driver</h2>
+
+    {% if assignment.driver %}
+        <div class="alert alert-success text-center">
+            <b>🚛 Assigned Driver:</b> {{ assignment.driver.name }}<br>
+            <b>📌 Pickup Status:</b> <span class="badge bg-primary">{{ assignment.status|title }}</span>
+        </div>
+    {% else %}
+        <div class="alert alert-warning text-center">⚠️ No driver assigned yet.</div>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+            <label class="form-label"><b>Schedule ID:</b></label>
+            <input type="text" class="form-control" value="{{ schedule.id }}" disabled>
+            <input type="hidden" name="schedule_id" value="{{ schedule.id }}">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label"><b>Resident Name:</b></label>
+            <input type="text" class="form-control" value="{{ schedule.user.username }}" disabled>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label"><b>Select Driver:</b></label>
+            <select class="form-control" name="driver_id" required>
+                <option value="" disabled selected>Choose a driver</option>
+                {% for driver in drivers %}
+                <option value="{{ driver.id }}" {% if assignment.driver.id == driver.id %}selected{% endif %}>
+                    {{ driver.name }} - {{ driver.phone_number }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label"><b>Select Status:</b></label>
+            <select class="form-control" name="status" required>
+                <option value="pending" {% if assignment.status == "pending" %}selected{% endif %}>Pending</option>
+                <option value="approved" {% if assignment.status == "approved" %}selected{% endif %}>Approved</option>
+                <option value="completed" {% if assignment.status == "completed" %}selected{% endif %}>Completed</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-success w-100">✔ Assign / Update Driver</button>
+    </form>
+</div>
+
+{% include 'afooter.html' %}

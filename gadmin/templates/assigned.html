@@ -1,0 +1,87 @@
+{% load static %}
+{% include 'aheader.html' %}
+
+<!-- Assigned Drivers List -->
+<div class="container mt-5">
+    <h2 class="text-center mb-4" style="color: #333; font-weight: bold;">🚛 Assigned Drivers List</h2>
+
+    <div class="table-container">
+        <table class="table table-bordered table-striped text-center">
+            <thead>
+                <tr>
+                    
+                    <th>Resident Name</th>
+                    <th>Driver Name</th>
+                    <th>Phone Number</th>
+                    <th>Status</th>
+                    <th>Assigned Date</th>
+                   
+                </tr>
+            </thead>
+            <tbody>
+                {% for assignment in assigned_drivers %}
+                <tr>
+                    
+                    <td>{{ assignment.garbage_pickup.user.username }}</td>
+                    <td>{% if assignment.driver %}{{ assignment.driver.name }}{% else %}❌ No Driver Assigned{% endif %}</td>
+                    <td>{% if assignment.driver %}{{ assignment.driver.phone_number }}{% else %}-{% endif %}</td>
+                    <td>
+                        <span class="status-badge {{ assignment.status }}">
+                            {{ assignment.get_status_display }}
+                        </span>
+                    </td>
+                    <td>{{ assignment.assigned_date }}</td>
+                   
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" class="text-center text-muted">🚫 No assigned drivers found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Styling -->
+<style>
+
+    html, body {
+        height: auto;
+        overflow-y: auto; /* Allow vertical scrolling */
+    }
+    .table-container {
+        max-height: 500px; /* Adjust the height */
+        overflow-y: auto;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 10px;
+    }
+
+    .table {
+        width: 100%;
+        background-color: #fff;
+    }
+
+    thead {
+        position: sticky;
+        top: 0;
+        background-color: #343a40;
+        color: white;
+        z-index: 2;
+    }
+
+    .status-badge {
+        display: inline-block;
+        padding: 5px 10px;
+        border-radius: 5px;
+        color: white;
+        font-weight: bold;
+    }
+
+    .pending { background-color: #ffc107; }
+    .approved { background-color: #007bff; }
+    .completed { background-color: #28a745; }
+</style>
+
+{% include 'afooter.html' %}

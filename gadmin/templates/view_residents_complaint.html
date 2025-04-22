@@ -1,0 +1,75 @@
+{% load static %}
+{% include 'aheader.html' %}
+
+<main class="content">
+    <div class="container mt-4">
+        <h2 class="text-center mb-4">Customer Complaints</h2>
+
+        {% if messages %}
+            <div class="alert alert-success">
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% if complaints %}
+            <table class="table table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Customer Name</th>
+                        <th>Subscription <br>Start Date</th>
+                        <th>Subscription <br>End Date</th>
+                        <th>Frequency</th>
+                        <th>Complaint</th>
+                        <th>Complaint <br>Submitted On</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for complaint in complaints %}
+                        <tr>
+                            <td>{{ complaint.user.username }} 
+                            <td>{{ complaint.pickup_schedule.subscription_start_date|date:"d/m/Y" }}</td>
+                            <td>
+                                {% if complaint.pickup_schedule.subscription_end_date %}
+                                    {{ complaint.pickup_schedule.subscription_end_date|date:"d/m/Y" }}
+                                {% else %}
+                                    N/A
+                                {% endif %}
+                            </td>
+                            <td>{{ complaint.pickup_schedule.get_frequency_display }}</td>
+                            <td>{{ complaint.complaint_text }}</td>
+                            <td>{{ complaint.created_at|date:"d/m/Y" }}</td>
+                            <td>
+                                {% if complaint.is_solved %}
+                                    <span class="badge bg-success">Solved</span>
+                                {% else %}
+                                    <span class="badge bg-danger">Pending</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="complaint_id" value="{{ complaint.id }}">
+                                    <button type="submit" class="btn btn-primary">
+                                        {% if complaint.is_solved %}
+                                            Mark as Pending
+                                        {% else %}
+                                            Mark as Solved
+                                        {% endif %}
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p class="text-center">No complaints found.</p>
+        {% endif %}
+    </div>
+</main>
+
+{% include 'afooter.html' %}

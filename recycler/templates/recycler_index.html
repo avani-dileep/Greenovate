@@ -1,0 +1,141 @@
+{% load static %}
+{% include 'recyclerheader.html' %}
+
+<main class="content">
+    <div class="container-fluid p-0">
+
+        <h1 class="h3 mb-3"><strong>Recycler</strong> Dashboard</h1>
+
+        <div class="row mt-4">
+            <!-- All Orders -->
+            <div class="col-md-3 mb-4">
+                <div class="card shadow-sm hover-shadow-lg border-light rounded">
+                    <div class="card-body text-center">
+                        <h5 class="card-title font-weight-bold text-primary">All Orders</h5>
+                        <p class="text-muted mb-3">View and manage all placed orders.</p>
+                        <a href="{% url 'recycler:order_details' %}" class="btn btn-primary w-100 py-2 font-weight-bold">View Orders</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Completed Orders -->
+            <div class="col-md-3 mb-4">
+                <div class="card shadow-sm hover-shadow-lg border-light rounded">
+                    <div class="card-body text-center">
+                        <h5 class="card-title font-weight-bold text-success">Completed Orders</h5>
+                        <p class="text-muted mb-3">View orders that have been successfully delivered.</p>
+                        <a href="{% url 'recycler:completed_orders' %}" class="btn btn-success w-100 py-2 font-weight-bold">View Completed</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pending Orders -->
+            <div class="col-md-3 mb-4">
+                <div class="card shadow-sm hover-shadow-lg border-light rounded">
+                    <div class="card-body text-center">
+                        <h5 class="card-title font-weight-bold text-warning">Pending Orders</h5>
+                        <p class="text-muted mb-3">View orders that are yet to be processed.</p>
+                        <a href="{% url 'recycler:pending_orders' %}" class="btn btn-warning w-100 py-2 font-weight-bold">View Pending</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-4">
+                <div class="card shadow-sm hover-shadow-lg border-light rounded">
+                    <div class="card-body text-center">
+                        <h5 class="card-title font-weight-bold text-dark">Generate Reports</h5>
+                        <p class="text-muted mb-3">Generate daily reports for analysis and tracking.</p>
+                        <a href="{% url 'recycler:daily_orders' %}" class="btn btn-dark w-100 py-2 font-weight-bold">View Reports</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <!-- Add New Products -->
+
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm hover-shadow-lg border-light rounded">
+                    <div class="card-body text-center">
+                        <h5 class="card-title font-weight-bold text-info">Add Garbage Request</h5>
+                        <p class="text-muted mb-3">Submit garbage collection request for recycling.</p>
+                        <a href="{% url 'recycler:recycler_request_garbage' %}" class="btn btn-info w-100 py-2 font-weight-bold">Request Garbage</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm hover-shadow-lg border-light rounded">
+                    <div class="card-body text-center">
+                        <h5 class="card-title font-weight-bold text-info">Add Recycled Products</h5>
+                        <p class="text-muted mb-3">Add new recycled products to the marketplace.</p>
+                        <a href="{% url 'recycler:add_recycled_product' %}" class="btn btn-info w-100 py-2 font-weight-bold">Add Product</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Track Complaints -->
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm hover-shadow-lg border-light rounded">
+                    <div class="card-body text-center">
+                        <h5 class="card-title font-weight-bold text-danger">Track Complaints</h5>
+                        <p class="text-muted mb-3">Monitor and manage complaints from customers.</p>
+                        <a href="{% url 'recycler:submit_complaint' %}" class="btn btn-danger w-100 py-2 font-weight-bold">View Complaints</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Generate Reports -->
+            
+        </div>
+
+        <div class="row mt-4">
+            <!-- View Requests -->
+            <div class="col-md-3 mb-4">
+                <div class="card shadow-sm hover-shadow-lg border-light rounded">
+                    <div class="card-body text-center">
+                        <h5 class="card-title font-weight-bold text-secondary">View Requests</h5>
+                        <p class="text-muted mb-3">Check submitted garbage collection requests.</p>
+                        <a href="{% url 'recycler:view_requests' %}" class="btn btn-secondary w-100 py-2 font-weight-bold">View Requests</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- View Products -->
+            <div class="col-md-3 mb-4">
+                <div class="card shadow-sm hover-shadow-lg border-light rounded">
+                    <div class="card-body text-center">
+                        <h5 class="card-title font-weight-bold text-success">View Products</h5>
+                        <p class="text-muted mb-3">Browse and manage recycled products.</p>
+                        <a href="{% url 'recycler:view_products' %}" class="btn btn-success w-100 py-2 font-weight-bold">View Products</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- View Complaints -->
+            <div class="col-md-3 mb-4">
+                <div class="card shadow-sm hover-shadow-lg border-light rounded">
+                    <div class="card-body text-center">
+                        <h5 class="card-title font-weight-bold text-danger">View Complaints</h5>
+                        <p class="text-muted mb-3">Track and manage customer complaints.</p>
+                        <a href="{% url 'recycler:view_complaints' %}" class="btn btn-danger w-100 py-2 font-weight-bold">View Complaints</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile -->
+            <div class="col-md-3 mb-4">
+                <div class="card shadow-sm hover-shadow-lg border-light rounded">
+                    <div class="card-body text-center">
+                        <h5 class="card-title font-weight-bold text-primary">Profile</h5>
+                        <p class="text-muted mb-3">View and update your profile details.</p>
+                        <a href="{% url 'recycler:recycler_profile' %}" class="btn btn-primary w-100 py-2 font-weight-bold">View Profile</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+{% include 'recyclerfooter.html' %}

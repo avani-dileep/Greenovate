@@ -1,0 +1,85 @@
+{% load static %}
+{% include 'recyclerheader.html' %} 
+
+<div class="container-fluid">
+    <h2 class="text-center" style="font-weight: bold; color: #333; margin-bottom: 25px; text-transform: uppercase; letter-spacing: 1px;">
+        Recycler Profile
+    </h2>
+
+    <div class="card" style="border-radius: 15px; box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); padding: 40px; background-color: #ffffff; border: none; width: 100%; max-width: 1100px; margin: auto;">
+        <div class="card-body text-center">
+
+            <!-- Success and Error Messages -->
+            {% if messages %}
+                <div class="alert alert-dismissible fade show">
+                    {% for message in messages %}
+                        <div class="alert {% if message.tags == 'error' %}alert-danger{% else %}alert-success{% endif %}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <form method="POST" enctype="multipart/form-data" style="text-align: left;">
+                {% csrf_token %}
+
+                <!-- Recycler ID (Read-Only) -->
+                <div class="form-group">
+                    <label style="font-weight: bold; color: #555; font-size: 16px;">Recycler ID:</label>
+                    <input type="text" value="{{ recycler.recycler_id }}" class="form-control" readonly style="background-color: #e9ecef; border-radius: 8px; padding: 10px; font-size: 16px;">
+                </div>
+
+                <!-- Name -->
+                <div class="form-group">
+                    <label style="font-weight: bold; color: #555; font-size: 16px;">Name:</label>
+                    <input type="text" name="name" value="{{ recycler.name }}" class="form-control" required style="border-radius: 8px; padding: 10px; font-size: 16px;">
+                </div>
+
+                <!-- Phone Number -->
+                <div class="form-group">
+                    <label style="font-weight: bold; color: #555; font-size: 16px;">Phone Number:</label>
+                    <input type="text" name="phone_number" value="{{ recycler.phone_number }}" class="form-control" required style="border-radius: 8px; padding: 10px; font-size: 16px;">
+                </div>
+
+                <!-- Address -->
+                <div class="form-group">
+                    <label style="font-weight: bold; color: #555; font-size: 16px;">Address:</label>
+                    <textarea name="address" class="form-control" required style="border-radius: 8px; resize: none; height: 100px; padding: 10px; font-size: 16px;">{{ recycler.address }}</textarea>
+                </div>
+
+                <!-- Company Name -->
+                <div class="form-group">
+                    <label style="font-weight: bold; color: #555; font-size: 16px;">Company Name:</label>
+                    <input type="text" value="{{ recycler.company_name }}" class="form-control" readonly style="background-color: #e9ecef; border-radius: 8px; padding: 10px; font-size: 16px;">
+                </div>
+
+                <!-- Email -->
+                <div class="form-group">
+                    <label style="font-weight: bold; color: #555; font-size: 16px;">Email:</label>
+                    <input type="email" value="{{ recycler.email }}" class="form-control" readonly style="background-color: #e9ecef; border-radius: 8px; padding: 10px; font-size: 16px;">
+                </div>
+
+                <!-- Password Update -->
+                <div class="form-group">
+                    <label style="font-weight: bold; color: #555; font-size: 16px;">New Password: <small>(Leave blank to keep current)</small></label>
+                    <input type="password" name="new_password" class="form-control" style="border-radius: 8px; padding: 10px; font-size: 16px;">
+                </div>
+
+                <div class="form-group">
+                    <label style="font-weight: bold; color: #555; font-size: 16px;">Confirm Password:</label>
+                    <input type="password" name="confirm_password" class="form-control" style="border-radius: 8px; padding: 10px; font-size: 16px;">
+                </div>
+
+                <!-- Buttons -->
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-primary w-100" style="border-radius: 8px; font-size: 18px; padding: 12px; background-color: #007bff; border: none;">
+                        Update Profile
+                    </button>
+                    <a href="{% url 'recycler:recycler_logout' %}" class="btn btn-danger w-100 mt-2" style="border-radius: 8px; font-size: 18px; padding: 12px;">Logout</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% include 'recyclerfooter.html' %}

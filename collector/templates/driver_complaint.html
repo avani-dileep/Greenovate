@@ -1,0 +1,30 @@
+{% load static %}
+{% include 'collectorheader.html' %}
+<main class="content">
+    <div style="width: 100%; max-width: 800px; margin: 0 auto; padding: 20px; background-color: #fff; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+        <h2 style="text-align: center; color: #333; font-size: 28px; font-weight: bold;">Submit a Complaint</h2>
+        
+        <!-- Complaint Form -->
+        <form method="post">
+            {% csrf_token %}
+            <div style="margin-bottom: 20px;">
+                <label for="pickup_schedule" style="display: block; font-size: 16px; font-weight: bold; color: #444;">Select Pickup Schedule</label>
+                <select name="pickup_schedule" id="pickup_schedule" style="width: 100%; padding: 10px; font-size: 16px; border: 1px solid #ddd; border-radius: 5px; background-color: #fff;">
+                    <option value="">Choose a pickup schedule</option>
+                    {% for schedule in driver_schedules %}
+                        <option value="{{ schedule.id }}">{{ schedule.pickup_date }} - {{ schedule.frequency }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div style="margin-bottom: 20px;">
+                <label for="complaint_text" style="display: block; font-size: 16px; font-weight: bold; color: #444;">Complaint Details</label>
+                <textarea name="complaint_text" id="complaint_text" rows="5" placeholder="Describe your complaint..." style="width: 100%; padding: 10px; font-size: 16px; border: 1px solid #ddd; border-radius: 5px; background-color: #fff;"></textarea>
+            </div>
+
+            <button type="submit" style="width: 100%; padding: 15px; background-color: #007bff; color: white; border: none; border-radius: 5px; font-size: 18px;">Submit Complaint</button>
+        </form>
+    </div>
+</main>
+
+{% include 'collectorfooter.html' %}

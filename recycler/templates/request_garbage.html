@@ -1,0 +1,75 @@
+{% load static %}
+{% include 'recyclerheader.html' %} 
+
+<div class="container mt-5" style="max-width: 700px; background: #f8f9fa; padding: 30px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+    <h2 class="text-center mb-4" style="font-weight: bold; color: #333;">Request Garbage for Recycling</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {% if message.tags == 'error' %}alert-danger{% else %}alert-success{% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label style="font-weight: bold;">Garbage Type & Quantity:</label>
+            <div class="border rounded p-3" style="background: #fff;">
+                <label class="d-block">
+                    <input type="checkbox" onclick="toggleWeightInput(this, 'plastic_weight')"> Plastic
+                </label>
+                <input type="number" name="plastic_weight" id="plastic_weight" class="form-control mt-2" placeholder="Weight (kg)" min="1" max="20" style="display: none;">
+
+                <label class="d-block mt-2">
+                    <input type="checkbox" onclick="toggleWeightInput(this, 'paper_weight')"> Paper
+                </label>
+                <input type="number" name="paper_weight" id="paper_weight" class="form-control mt-2" placeholder="Weight (kg)" min="1" max="20" style="display: none;">
+
+                <label class="d-block mt-2">
+                    <input type="checkbox" onclick="toggleWeightInput(this, 'glass_weight')"> Glass
+                </label>
+                <input type="number" name="glass_weight" id="glass_weight" class="form-control mt-2" placeholder="Weight (kg)" min="1" max="20" style="display: none;">
+
+                <label class="d-block mt-2">
+                    <input type="checkbox" onclick="toggleWeightInput(this, 'ewaste_weight')"> E-Waste
+                </label>
+                <input type="number" name="ewaste_weight" id="ewaste_weight" class="form-control mt-2" placeholder="Weight (kg)" min="1" max="20" style="display: none;">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label style="font-weight: bold;">Pickup Date:</label>
+            <input type="date" name="pickup_date" class="form-control" required id="pickup_date">
+        </div>
+
+        <div class="form-group">
+            <label style="font-weight: bold;">Additional Notes (Optional):</label>
+            <textarea name="notes" class="form-control"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block mt-3" style="border-radius: 8px; font-size: 18px; padding: 12px;">Submit Request</button>
+    </form>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var today = new Date().toISOString().split('T')[0];
+        document.getElementById("pickup_date").setAttribute("min", today);
+    });
+
+    function toggleWeightInput(checkbox, inputId) {
+        var input = document.getElementById(inputId);
+        if (checkbox.checked) {
+            input.style.display = "block";
+            input.setAttribute("required", "true");
+        } else {
+            input.style.display = "none";
+            input.removeAttribute("required");
+        }
+    }
+</script>
+
+{% include 'recyclerfooter.html' %}

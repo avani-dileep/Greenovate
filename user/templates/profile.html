@@ -1,0 +1,54 @@
+{% load static %}
+
+{% include 'header.html' %}
+
+<div class="container-fluid page-header py-5" style="background: none;">
+    <h2 class="text-center">My Profile</h2>
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            <div class="card">
+                <div class="card-body">
+                    <h4>Personal Information</h4>
+                    
+                    {% if user_details %}
+                        <!-- Display UserDetails information -->
+                        <p><strong>Name:</strong> {{ user_details.name }}</p>
+                        <p><strong>Email:</strong> {{ user_details.email }}</p>
+                        <p><strong>Phone:</strong> {{ user_details.phone }}</p>
+                        <p><strong>Address:</strong> {{ user_details.address }}</p>
+                    {% elif user_profile %}
+                        <!-- Display UserProfile information -->
+                        <p><strong>Username:</strong> {{ user_profile.user.username }}</p>
+                        <p><strong>Email:</strong> {{ user_profile.user.email }}</p>
+                        <p><strong>Phone:</strong> {{ user_profile.user.phone }}</p>
+                        <p><strong>Building:</strong> {{ user_profile.user.building }}</p>
+                        <p><strong>Flat Number:</strong> {{ user_profile.user.flat_number }}</p>
+                        <p><strong>Points:</strong> {{ user_profile.points }}</p>
+                        <p><strong>Supercoins:</strong> {{ user_profile.supercoins }}</p>
+                    {% else %}
+                        <p>No user information available.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include 'footer.html' %}
+
+{% load static %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Local Libraries -->
+<script src="{% static 'lib/easing/easing.min.js' %}"></script>
+<script src="{% static 'lib/waypoints/waypoints.min.js' %}"></script>
+<script src="{% static 'lib/lightbox/js/lightbox.min.js' %}"></script>
+<script src="{% static 'lib/owlcarousel/owl.carousel.min.js' %}"></script>
+
+<!-- Template Javascript -->
+<script src="{% static 'js/main.js' %}"></script>
+
+</body>
+</html>

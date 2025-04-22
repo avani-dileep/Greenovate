@@ -1,0 +1,217 @@
+{% load static %}
+{% include 'recyclerheader.html' %}
+
+<style>
+    h2 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    .messages {
+        list-style: none;
+        padding: 10px;
+        width: 50%;
+        margin: 10px auto;
+    }
+
+    .messages li {
+        padding: 8px;
+        margin: 5px 0;
+        border-radius: 5px;
+        text-align: center;
+    }
+
+    .messages .success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+
+    .messages .error {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+
+    table {
+        width: 90%;
+        max-width: 1200px;
+        margin: 20px auto;
+        border-collapse: collapse;
+        background: white;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: center;
+        border: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #007bff;
+        color: white;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    tr:hover {
+        background-color: #ddd;
+    }
+
+    .status-badge {
+        display: inline-block;
+        padding: 10px 16px;
+        border-radius: 8px;
+        font-weight: bold;
+        min-width: 120px;
+        text-align: center;
+        font-size: 14px;
+        border: 2px solid;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .status-pending {
+        background: linear-gradient(135deg, #ffea70, #ffc107);
+        color: #8a6d3b;
+        border-color: #ff9800;
+    }
+
+    .status-rejected {
+        background: linear-gradient(135deg, #ff7c7c, #dc3545);
+        color: white;
+        border-color: #c82333;
+    }
+
+    .status-complete {
+        background: linear-gradient(135deg, #6fdc6f, #28a745);
+        color: white;
+        border-color: #1e7e34;
+    }
+
+    .download-btn {
+        display: block;
+        width: fit-content;
+        margin: 20px auto;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        text-decoration: none;
+        font-size: 16px;
+        border-radius: 5px;
+        text-align: center;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .download-btn:hover {
+        background-color: #0056b3;
+    }
+
+</style>
+
+<h2>Today's Orders</h2>
+
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+<!-- Download Excel Report Button -->
+<a href="?download=true" class="download-btn">Download Excel Report</a>
+
+<table>
+    <thead>
+        <tr>
+            <th>Order Date</th>
+            <th>Name</th>
+            <th>Product Name</th>
+            <th>Quantity</th>
+            <th>Price/Supercoin</th>
+            <th>Status</th>
+            <th>Payment Method</th>
+            <th>Update Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for order in orders %}
+            {% for item in order.order_items.all %}
+                <tr>
+                    <td>{{ order.created_at|date:"d-m-Y" }}</td>
+                    <td>
+                        {% if order.user.userdetails %}
+                            {{ order.user.userdetails.name }}
+                        {% elif order.user.userprofile %}
+                            {{ order.user.userprofile.name }}
+                        {% else %}
+                            {{ order.user.username }}
+                        {% endif %}
+                    </td>
+                    <td>{{ item.product.name }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>
+                        {% if order.payment_method == "Supercoins" %}
+                            {{ item.total_supercoins }} Supercoins
+                        {% else %}
+                            ₹{{ item.total_price }}
+                        {% endif %}
+                    </td>
+                    <td>
+                        <span class="status-badge 
+                            {% if order.status == 'Pending' %}status-pending{% endif %}
+                            {% if order.status == 'Rejected' %}status-rejected{% endif %}
+                            {% if order.status == 'Complete' %}status-complete{% endif %}
+                        ">
+                            {{ order.status }}
+                        </span>
+                    </td>
+                    <td>{{ order.payment_method }}</td>
+                    <td>
+                        <form action="{% url 'recycler:update_order_status' order.id %}" method="POST" class="update-form">
+                            {% csrf_token %}
+                            <select name="status">
+                                {% for key, value in order.STATUS_CHOICES %}
+                                    <option value="{{ key }}" {% if order.status == key %}selected{% endif %}>
+                                        {{ value }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                            <button type="submit" class="update-btn">Update</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        {% empty %}
+            <tr>
+                <td colspan="8">No orders found for today.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h2>Daily Order Report</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Total Orders</th>
+            
+            <th>Total Cash Payments</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ total_orders }}</td>
+           
+            <td>₹{{ total_cash }}</td>
+        </tr>
+    </tbody>
+</table>
+
+{% include 'recyclerfooter.html' %}

@@ -1,0 +1,420 @@
+{% load static %}
+{% include 'cheader.html' %}
+
+<div style="
+    width: 100%; 
+    min-height: 70vh; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    background: linear-gradient(120deg, #e6f7ff, #ffffff); 
+    font-family: Arial, sans-serif; 
+    padding: 20px;">
+    
+    <div style="
+        width: 100%; 
+        max-width: 800px; 
+        background: #fff; 
+        border-radius: 15px; 
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); 
+        padding: 30px;">
+        
+        <!-- Title -->
+        <h2 style="
+            text-align: center; 
+            color: #333; 
+            font-size: 24px; 
+            font-weight: bold; 
+            margin-bottom: 10px;">
+            Schedule Garbage Pickup
+        </h2>
+
+        <!-- Form -->
+        <form method="post" style="width: 100%;">
+            {% csrf_token %}
+
+            <!-- Name -->
+            <div style="margin-bottom: 10px;">
+                <label style="
+                    display: block; 
+                    font-size: 16px; 
+                    font-weight: bold; 
+                    color: #444; 
+                    margin-bottom: 5px;">
+                    Name
+                </label>
+                <input type="text" value="{{ user_profile.name }}" readonly style="
+                    width: 100%; 
+                    padding: 10px; 
+                    font-size: 16px; 
+                    border: 1px solid #ddd; 
+                    border-radius: 5px; 
+                    background-color: #f7f7f7; 
+                    color: #555; 
+                    box-sizing: border-box;">
+            </div>
+            
+            <!-- Flat Number -->
+            <div style="margin-bottom: 10px;">
+                <label style="
+                    display: block; 
+                    font-size: 16px; 
+                    font-weight: bold; 
+                    color: #444; 
+                    margin-bottom: 5px;">
+                    Flat Number
+                </label>
+                <input type="text" value="{{ user_profile.flat_number }}" readonly style=" 
+                    width: 100%; 
+                    padding: 10px; 
+                    font-size: 16px; 
+                    border: 1px solid #ddd; 
+                    border-radius: 5px; 
+                    background-color: #f7f7f7; 
+                    color: #555; 
+                    box-sizing: border-box;">
+            </div>
+
+            <!-- Subscription Duration -->
+            <div style="margin-bottom: 10px;">
+                <label style=" 
+                    display: block; 
+                    font-size: 16px; 
+                    font-weight: bold; 
+                    color: #444; 
+                    margin-bottom: 5px;">
+                    Duration (in months)
+                </label>
+                <input type="number" name="duration" min="1" placeholder="Enter duration in months" style="
+                    width: 100%; 
+                    padding: 10px; 
+                    font-size: 16px; 
+                    border: 1px solid #ddd; 
+                    border-radius: 5px; 
+                    background-color: #fff; 
+                    color: #555; 
+                    box-sizing: border-box;">
+            </div>
+
+            <!-- Pickup Frequency -->
+            <div style="margin-bottom: 10px;">
+                <label style=" 
+                    display: block; 
+                    font-size: 16px; 
+                    font-weight: bold; 
+                    color: #444; 
+                    margin-bottom: 5px;">
+                    Pickup Frequency
+                </label>
+                <select name="frequency" style=" 
+                    width: 100%; 
+                    padding: 10px; 
+                    font-size: 16px; 
+                    border: 1px solid #ddd; 
+                    border-radius: 5px; 
+                    background-color: #fff; 
+                    color: #555; 
+                    box-sizing: border-box;">
+                    <option value="" disabled selected>Select Frequency</option>
+                    <option value="daily">Daily</option>
+                    <option value="weekly">Weekly(2 Times)</option>
+                    <option value="monthly">Monthly(4 Times)</option>
+                    <option value="special">Special Event</option>
+                </select>
+            </div>
+
+            <!-- Pickup Date (Special Event) -->
+            <div id="date-container" style="margin-bottom: 10px; display: none;">
+                <label style=" 
+                    display: block; 
+                    font-size: 16px; 
+                    font-weight: bold; 
+                    color: #444; 
+                    margin-bottom: 5px;">
+                    Pickup Date Start
+                </label>
+                <input type="date" name="pickup_date" id="pickup_date" style=" 
+                    width: 100%; 
+                    padding: 10px; 
+                    font-size: 16px; 
+                    border: 1px solid #ddd; 
+                    border-radius: 5px; 
+                    background-color: #fff; 
+                    color: #555; 
+                    box-sizing: border-box;">
+            </div>
+           
+            <!-- Payment Method -->
+            <div style="margin-bottom: 15px;">
+                <label style=" 
+                    display: block; 
+                    font-size: 16px; 
+                    font-weight: bold; 
+                    color: #444; 
+                    margin-bottom: 5px;">
+                    Payment Method
+                </label>
+                <select name="payment_method" id="payment-method" style=" 
+                    width: 100%; 
+                    padding: 10px; 
+                    font-size: 16px; 
+                    border: 1px solid #ddd; 
+                    border-radius: 5px; 
+                    background-color: #fff; 
+                    color: #555; 
+                    box-sizing: border-box;">
+                    <option value="" disabled selected>Select Payment Method</option>
+                    <option value="card">Card Payment</option>
+                    <option value="cod">Cash on Delivery</option>
+                </select>
+            </div>
+            
+            <!-- Card Details -->
+            <div id="card-details" style="display: none; margin-bottom: 15px;">
+                <label style="display: block; font-size: 16px; font-weight: bold; color: #444; margin-bottom: 5px;">Card Number</label>
+                <input type="text" id="card_number" name="card_number" placeholder="Enter card number" maxlength="16" oninput="validateCardNumber(this)" style="width: 100%; padding: 10px; font-size: 16px; border: 1px solid #ddd; border-radius: 5px; background-color: #fff; color: #555; box-sizing: border-box;">
+                <span id="card_error" style="color: red; font-size: 14px;"></span>
+            
+                <label style="display: block; font-size: 16px; font-weight: bold; color: #444; margin-top: 10px;">Expiry Date</label>
+                <input type="text" id="expiry_date" name="expiry_date" placeholder="MM/YY" maxlength="5" oninput="validateExpiryDate(this)" style="width: 100%; padding: 10px; font-size: 16px; border: 1px solid #ddd; border-radius: 5px; background-color: #fff; color: #555; box-sizing: border-box;">
+                <span id="expiry_error" style="color: red; font-size: 14px;"></span>
+            
+                <label style="display: block; font-size: 16px; font-weight: bold; color: #444; margin-top: 10px;">CVV</label>
+                <input type="password" id="cvv" name="cvv" placeholder="Enter CVV" maxlength="4" oninput="validateCVV(this)" style="width: 100%; padding: 10px; font-size: 16px; border: 1px solid #ddd; border-radius: 5px; background-color: #fff; color: #555; box-sizing: border-box;">
+                <span id="cvv_error" style="color: red; font-size: 14px;"></span>
+            </div>
+
+            <!-- Weight for Special Event -->
+            <div id="weight-container" style="margin-bottom: 15px; display: none;">
+                <label style=" 
+                    display: block; 
+                    font-size: 16px; 
+                    font-weight: bold; 
+                    color: #444; 
+                    margin-bottom: 5px;">
+                    Weight (in kg)
+                </label>
+                <input type="number" name="weight" id="weight" min="0" placeholder="Enter weight for special event" style=" 
+                    width: 100%; 
+                    padding: 10px; 
+                    font-size: 16px; 
+                    border: 1px solid #ddd; 
+                    border-radius: 5px; 
+                    background-color: #fff; 
+                    color: #555; 
+                    box-sizing: border-box;">
+            </div>
+
+            <!-- Subscription End Date -->
+            <div id="end-date-container" style=" 
+                margin-bottom: 15px; 
+                text-align: center; 
+                font-size: 16px; 
+                color: #333;">
+                Subscription Ends On: <span id="subscription-end-date">N/A</span>
+            </div>
+
+            <!-- Payment Display -->
+            <div style=" 
+                text-align: center; 
+                font-size: 18px; 
+                color: #333; 
+                margin: 20px 0;">
+                Total Payment: ₹<span id="payment-amount">0.00</span>
+            </div>
+
+            <!-- Points Display -->
+            <div style="text-align: center; font-size: 18px; color: #333; margin-top: 20px;">
+                Points: <span id="points-amount">0</span>
+                <span style="margin: 0 15px;">|</span>
+                Supercoins: <span id="supercoin-amount">0</span>
+            </div><br>
+
+            <!-- Hidden Fields -->
+            <input type="hidden" name="pickup_date_hidden" id="pickup_date_hidden">
+            <input type="hidden" name="weight_hidden" id="weight_hidden">
+            <input type="hidden" name="points" id="points-hidden">
+            <input type="hidden" name="supercoins" id="supercoins-hidden">
+            <input type="hidden" name="payment_status" id="payment-status-hidden" value="0">
+
+            <!-- Submit Button -->
+            <button type="submit" style=" 
+                width: 100%; 
+                padding: 15px; 
+                font-size: 18px; 
+                background-color: #007bff; 
+                color: #fff; 
+                border: none; 
+                border-radius: 5px; 
+                cursor: pointer; 
+                font-weight: bold;">
+                Schedule Pickup
+            </button>
+        </form>
+    </div>
+</div>
+
+{% include 'cfooter.html' %}
+
+<script>
+    // JavaScript for dynamic form behavior and validation
+    const frequencyField = document.querySelector('[name="frequency"]');
+    const durationField = document.querySelector('[name="duration"]');
+    const paymentAmountField = document.getElementById('payment-amount');
+    const endDateContainer = document.getElementById('end-date-container');
+    const endDateField = document.getElementById('subscription-end-date');
+    const dateContainer = document.getElementById('date-container');
+    const pickupDateField = document.getElementById('pickup_date');
+    const weightContainer = document.getElementById('weight-container');
+    const weightField = document.getElementById('weight');
+    const pickupDateHiddenField = document.getElementById('pickup_date_hidden');
+    const weightHiddenField = document.getElementById('weight_hidden');
+    const pointsField = document.getElementById('points-amount');
+    const supercoinField = document.getElementById('supercoin-amount');
+
+    function calculatePaymentAndEndDate() {
+        const frequency = frequencyField.value;
+        const duration = parseInt(durationField.value) || 0;
+        const pickupDate = new Date(pickupDateField.value);
+        let basePayment = 0;
+        let points = 0;
+        let weightCharge = 0;
+    
+        const today = new Date();
+        pickupDateField.setAttribute('min', today.toISOString().split('T')[0]); 
+    
+        if (frequency === 'special') {
+            pickupDateField.setAttribute('required', 'true');
+            weightField.setAttribute('required', 'true');
+            weightContainer.style.display = 'block';  
+            dateContainer.style.display = 'block';  
+        } else {
+            pickupDateField.removeAttribute('required');
+            weightField.removeAttribute('required');
+            weightContainer.style.display = 'none';
+            dateContainer.style.display = 'block';  
+        }
+    
+        if (frequency === 'daily') {
+            basePayment = 30 * 30 * duration; 
+            points = 300 * duration;
+            endDateContainer.style.display = 'block';  
+        } else if (frequency === 'weekly') {
+            basePayment = 100 * 4 * duration; 
+            points = 200 * duration;
+            endDateContainer.style.display = 'block';  
+        } else if (frequency === 'monthly') {
+            basePayment = 300 * duration; 
+            points = 100 * duration;
+            endDateContainer.style.display = 'block';  
+        } else if (frequency === 'special') {
+            basePayment = 50; 
+            weightCharge = (parseInt(weightField.value) || 0) * 10; 
+            points = 50 + ((parseInt(weightField.value) || 0) * 10); 
+            endDateContainer.style.display = 'none';  
+        }
+    
+        const totalPayment = basePayment + weightCharge;
+        paymentAmountField.textContent = totalPayment.toFixed(2);
+    
+        if (frequency !== 'special' && duration > 0 && pickupDate instanceof Date && !isNaN(pickupDate)) {
+            const endDate = new Date(pickupDate);
+            endDate.setMonth(pickupDate.getMonth() + duration); 
+    
+            const formattedDate = endDate.toLocaleDateString('en-GB', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+            });
+    
+            endDateField.textContent = formattedDate;
+        } else {
+            endDateField.textContent = 'N/A';
+        }
+    
+        if (frequency === 'special') {
+            pickupDateHiddenField.value = pickupDateField.value;
+            weightHiddenField.value = weightField.value;
+        } else {
+            pickupDateHiddenField.value = pickupDateField.value;
+            weightHiddenField.value = '';  
+        }
+
+        // Set hidden points and supercoins
+        document.getElementById('points-hidden').value = points;
+        document.getElementById('supercoins-hidden').value = Math.floor(points / 100);
+
+        pointsField.textContent = points;
+        supercoinField.textContent = Math.floor(points / 100);
+    }
+    
+    frequencyField.addEventListener('change', calculatePaymentAndEndDate);
+    durationField.addEventListener('input', calculatePaymentAndEndDate);
+    weightField.addEventListener('input', calculatePaymentAndEndDate);
+    pickupDateField.addEventListener('change', calculatePaymentAndEndDate);
+    
+    calculatePaymentAndEndDate();
+
+    // Payment method and card details logic
+    document.getElementById("payment-method").addEventListener("change", function() {
+        const cardDetails = document.getElementById("card-details");
+        if (this.value === "card") {
+            cardDetails.style.display = "block";
+        } else {
+            cardDetails.style.display = "none";
+        }
+    });
+
+    document.querySelector("form").addEventListener("submit", function(event) {
+        const paymentMethod = document.getElementById("payment-method").value;
+
+        if (paymentMethod === "card") {
+            event.preventDefault(); // Prevent default form submission
+
+            const cardNumber = document.getElementById("card_number").value;
+            const expiryDate = document.getElementById("expiry_date").value;
+            const cvv = document.getElementById("cvv").value;
+
+            if (!validateCardDetails(cardNumber, expiryDate, cvv)) {
+                return; // Stop submission if validation fails
+            }
+
+            // If card details are valid, set payment_status to 1 (Paid)
+            document.getElementById("payment-status-hidden").value = "1";
+
+            alert("Payment Successful! ✅");
+            this.submit(); // Submit the form programmatically
+        } else {
+            // For non-card payments, set payment_status to 0 (Not Paid)
+            document.getElementById("payment-status-hidden").value = "0";
+        }
+    });
+
+    function validateCardDetails(cardNumber, expiryDate, cvv) {
+        if (cardNumber.length !== 16) {
+            alert("Invalid card number. Must be 16 digits.");
+            return false;
+        }
+
+        if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(expiryDate)) {
+            alert("Invalid expiry date format. Use MM/YY.");
+            return false;
+        }
+
+        const [month, year] = expiryDate.split('/').map(Number);
+        const currentYear = new Date().getFullYear() % 100;
+        const currentMonth = new Date().getMonth() + 1;
+
+        if (year < currentYear || (year === currentYear && month < currentMonth)) {
+            alert("Card is expired.");
+            return false;
+        }
+
+        if (cvv.length < 3 || cvv.length > 4) {
+            alert("Invalid CVV. Must be 3 or 4 digits.");
+            return false;
+        }
+
+        return true;
+    }
+</script>

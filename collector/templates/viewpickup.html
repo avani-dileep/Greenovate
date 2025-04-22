@@ -1,0 +1,71 @@
+{% load static %}
+{% include 'collectorheader.html' %}
+
+<h2 style="text-align: center; color: #2c3e50;">Pickup Schedules for {{ driver_name }}</h2>
+
+{% if message %}
+    <p style="text-align: center; color: red; font-size: 18px;">{{ message }}</p>
+{% else %}
+    <form method="post" action="{% url 'collector:update_status' %}">
+        {% csrf_token %}
+        <table style="width: 100%; border-collapse: collapse; text-align: center; font-size: 16px;">
+            <tr style="background-color: #2c3e50; color: white;">
+                <th style="padding: 10px; border: 1px solid #ddd;">User Name</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">Flat Number</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">Building Name</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">Pickup Date</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">Subscription End Date</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">Payment Status</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">Status</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">Frequency</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">Action</th>
+            </tr>
+            {% for schedule in schedules %}
+            <tr style="background-color: {% cycle '#ecf0f1' '#d6eaf8' %};">
+                <td style="padding: 8px; border: 1px solid #ddd;">{{ schedule.user.username }}</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">{{ schedule.user.userprofile.flat_number }}</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">{{ schedule.user.building }}</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">{{ schedule.pickup_date }}</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">{{ schedule.subscription_end_date }}</td>
+
+                <!-- Payment Status -->
+                <td style="padding: 8px; border: 1px solid #ddd;">
+                    {% if schedule.payment_status == 1 %}
+                        <button type="button" disabled
+                            style="padding: 5px 10px; border: none; background-color: #27ae60; color: white; cursor: not-allowed;">
+                            Paid
+                        </button>
+                    {% else %}
+                        <button type="submit" name="toggle_payment" value="{{ schedule.id }}"
+                            style="padding: 5px 10px; border: none; background-color: red; color: white; cursor: pointer;">
+                            Not Paid
+                        </button>
+                    {% endif %}
+                </td>
+
+                <!-- Status Selection -->
+                <td style="padding: 8px; border: 1px solid #ddd;">
+                    <select name="status_{{ schedule.id }}" style="padding: 5px;">
+                        <option value="pending" {% if schedule.driverassigned.status == "pending" %}selected{% endif %}>Pending</option>
+                        <option value="approved" {% if schedule.driverassigned.status == "approved" %}selected{% endif %}>Approved</option>
+                        <option value="completed" {% if schedule.driverassigned.status == "completed" %}selected{% endif %}>Completed</option>
+                    </select>
+                </td>
+
+                <!-- Frequency -->
+                <td style="padding: 8px; border: 1px solid #ddd;">{{ schedule.get_frequency_display }}</td>
+
+                <!-- Update Button -->
+                <td style="padding: 8px; border: 1px solid #ddd;">
+                    <input type="hidden" name="pickup_id" value="{{ schedule.id }}">
+                    <button type="submit" style="background-color: #27ae60; color: white; border: none; padding: 5px 10px; cursor: pointer;">
+                        Update
+                    </button>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </form>
+{% endif %}
+
+{% include 'collectorfooter.html' %}

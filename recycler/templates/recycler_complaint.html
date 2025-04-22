@@ -1,0 +1,55 @@
+{% load static %}
+{% include 'recyclerheader.html' %}
+
+<main class="content">
+    <div style="max-width: 800px; margin: auto; padding: 20px; background: #fff; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); padding: 20px;">
+        <h2 style="text-align: center; color: #333;">Submit a Complaint</h2>
+
+        <!-- Display Messages -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert {% if message.tags == 'error' %}alert-danger{% else %}alert-success{% endif %}" style="padding: 10px; margin-bottom: 15px;">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <!-- Complaint Submission Form -->
+        <form method="post">
+            {% csrf_token %}
+
+            <!-- Dropdown for Approved Requests -->
+            <div style="margin-bottom: 15px;">
+                <label for="request_id" style="font-weight: bold;">Select Approved Request</label>
+                <select name="request_id" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                    <option value="">Choose a request</option>
+                    
+                    {% if recycler_requests %}
+                        {% for request in recycler_requests %}
+                            {% for type, weight in request.garbage_details.items %}
+                                <option value="{{ request.id }}">
+                                    {{ request.request_date|date:"d/m/Y" }} - {{ type|capfirst }} ({{ weight }}kg)
+                                </option>
+                            {% endfor %}
+                        {% endfor %}
+                    {% else %}
+                        <option disabled>No approved requests available</option>
+                    {% endif %}
+                </select>
+            </div>
+
+            <!-- Complaint Details -->
+            <div style="margin-bottom: 15px;">
+                <label for="complaint_text" style="font-weight: bold;">Complaint Details</label>
+                <textarea name="complaint_text" rows="5" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;"></textarea>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" style="width: 100%; padding: 10px; background: #007bff; color: white; border: none; border-radius: 5px;">
+                Submit Complaint
+            </button>
+        </form>
+    </div>
+</main>
+
+{% include 'recyclerfooter.html' %}

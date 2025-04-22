@@ -1,0 +1,65 @@
+{% load static %}
+{% include 'aheader.html' %}
+
+<div class="container mt-5" style="max-width: 800px; background-color: #ffffff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);">
+    <h2 class="text-center mb-4" style="color: #333; font-weight: bold; font-size: 24px;">✏️ Edit Driver Details</h2>
+
+    <form method="post" action="{% url 'gadmin:edit_driver' driver.driver_id %}" class="needs-validation" novalidate>
+        {% csrf_token %}
+
+        <div class="row">
+            <div class="col-md-6">
+                <label for="driver_id" class="form-label">Driver ID</label>
+                <input type="text" class="form-control" id="driver_id" name="driver_id" value="{{ driver.driver_id }}" readonly>
+
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control" id="name" name="name" value="{{ driver.name }}" required>
+                <div class="invalid-feedback">Please enter the driver's name.</div>
+
+                <label for="aadhar_number" class="form-label">Aadhar Number</label>
+                <input type="text" class="form-control" id="aadhar_number" name="aadhar_number" value="{{ driver.aadhar_number }}" pattern="\d{12}" required>
+                <div class="invalid-feedback">Please enter a valid 12-digit Aadhar number.</div>
+
+                <label for="address" class="form-label">Address</label>
+                <textarea class="form-control" id="address" name="address" rows="3" required>{{ driver.address }}</textarea>
+                <div class="invalid-feedback">Please enter the driver's address.</div>
+            </div>
+
+            <div class="col-md-6">
+                <label for="driving_license_number" class="form-label">Driving License Number</label>
+                <input type="text" class="form-control" id="driving_license_number" name="driving_license_number" value="{{ driver.driving_license_number }}" required>
+                <div class="invalid-feedback">Please enter the driver's license number.</div>
+
+                <label for="phone_number" class="form-label">Phone Number</label>
+                <input type="tel" class="form-control" id="phone_number" name="phone_number" value="{{ driver.phone_number }}" pattern="\d{10}" required>
+                <div class="invalid-feedback">Please enter a valid 10-digit phone number.</div>
+
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" name="password" minlength="8">
+                <small class="text-muted">Leave blank if you don't want to change the password.</small>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-3 w-100">💾 Update Driver</button>
+        <a href="{% url 'gadmin:view_driver' %}" class="btn btn-secondary mt-2 w-100">🔙 Cancel</a>
+    </form>
+</div>
+
+{% include 'afooter.html' %}
+
+<script>
+(function () {
+    'use strict';
+    var forms = document.querySelectorAll('.needs-validation');
+
+    Array.prototype.slice.call(forms).forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+        }, false);
+    });
+})();
+</script>

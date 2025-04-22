@@ -1,0 +1,82 @@
+{% load static %}
+{% include 'aheader.html' %}
+
+<main class="content">
+    <div style="max-width: 1000px; margin: auto; padding: 20px; background: #fff; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+        <h2 style="text-align: center; color: #333;">Manage Recycler Requests</h2>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert {% if message.tags == 'error' %}alert-danger{% else %}alert-success{% endif %}" style="margin-bottom: 15px; padding: 10px; border-radius: 5px;">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+            <thead>
+                <tr style="background: #007bff; color: white;">
+                    <th style="padding: 10px; text-align: left;">ID</th>
+                    <th style="padding: 10px; text-align: left;">Recycler</th>
+                    <th style="padding: 10px; text-align: left;">Garbage Type</th>
+                    <th style="padding: 10px; text-align: left;">Quantity (kg)</th>
+                    <th style="padding: 10px; text-align: left;">Request Date</th>
+                    <th style="padding: 10px; text-align: left;">Pickup Date</th>
+                    <th style="padding: 10px; text-align: left;">Status</th>
+                    <th style="padding: 10px; text-align: left;">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for request in requests %}
+                    {% for type, weight in request.garbage_details.items %}
+                    <tr>
+                        {% if forloop.first %}
+                            <td rowspan="{{ request.garbage_details|length }}">{{ request.id }}</td>
+                            <td rowspan="{{ request.garbage_details|length }}">{{ request.recycler.name }}</td>
+                        {% endif %}
+                        <td>{{ type|capfirst }}</td> <!-- Garbage Type -->
+                        <td>{{ weight }} kg</td> <!-- Garbage Weight -->
+                        {% if forloop.first %}
+                        <td rowspan="{{ request.garbage_details|length }}">{{ request.request_date|date:"d/m/Y" }}</td>
+
+                            <td rowspan="{{ request.garbage_details|length }}">{{ request.pickup_date }}</td>
+                            
+                            <td rowspan="{{ request.garbage_details|length }}">
+                                <form method="post" action="{% url 'gadmin:update_request_status' request.id %}">
+                                    {% csrf_token %}
+                                    <select name="status" required>
+                                        {% for status, label in request.STATUS_CHOICES %}
+                                            <option value="{{ status }}" {% if request.status == status %}selected{% endif %}>
+                                                {{ label }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                    <button type="submit" style="margin-left: 10px; background: #28a745; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer;">Update</button>
+                                </form>
+                            </td>
+
+                            <!-- Corrected Delete Button -->
+                            <td rowspan="{{ request.garbage_details|length }}">
+                                <form method="post" action="{% url 'gadmin:delete_request' request.id %}" style="display: inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" onclick="return confirm('Are you sure you want to delete this request?')" 
+                                            style="background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer;">
+                                        Delete
+                                    </button>
+                                </form>
+                            </td>
+
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                {% empty %} 
+                <tr>
+                    <td colspan="8" style="text-align: center; padding: 10px;">No requests found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</main>
+
+{% include 'afooter.html' %}

@@ -1,0 +1,199 @@
+{% load static %}
+{% include 'recyclerheader.html' %}
+
+<style>
+    h2 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    .messages {
+        list-style: none;
+        padding: 10px;
+        width: 50%;
+        margin: 10px auto;
+    }
+
+    .messages li {
+        padding: 8px;
+        margin: 5px 0;
+        border-radius: 5px;
+        text-align: center;
+    }
+
+    .messages .success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+
+    table {
+        width: 90%;
+        max-width: 1200px;
+        margin: 20px auto;
+        border-collapse: collapse;
+        background: white;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: center;
+        border: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #007bff;
+        color: white;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    tr:hover {
+        background-color: #ddd;
+    }
+
+    /* Status Badge Styling */
+    .status-badge {
+        display: inline-block;
+        padding: 10px 16px;
+        border-radius: 8px;
+        font-weight: bold;
+        min-width: 120px;
+        text-align: center;
+        font-size: 14px;
+        border: 2px solid;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .status-pending {
+        background: linear-gradient(135deg, #ffea70, #ffc107);
+        color: #8a6d3b;
+        border-color: #ff9800;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Styled Select Dropdown */
+    select {
+        padding: 8px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        background-color: #fff;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+        text-align: center;
+    }
+
+    select:focus {
+        border-color: #007bff;
+        outline: none;
+    }
+
+    /* Styled Button */
+    .update-btn {
+        padding: 8px 14px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 14px;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .update-btn:hover {
+        background-color: #218838;
+        transform: scale(1.05);
+    }
+
+    /* Form Styling */
+    .update-form {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        justify-content: center;
+    }
+</style>
+
+<h2>Pending Orders</h2>
+
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+<table>
+    <thead>
+        <tr>
+            <th>Order Date</th>
+            <th>Name</th>
+            <th>Product Name</th>
+            <th>Quantity</th>
+            <th>Price/Supercoin</th>
+            <th>Status</th>
+            <th>Payment Method</th>
+            <th>Update Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for order in orders %}
+            {% for item in order.order_items.all %}
+                <tr>
+                    <td>{{ order.created_at|date:"d-m-Y" }}</td> 
+                    <td>
+                        {% if order.user.userdetails %}
+                            {{ order.user.userdetails.name }}
+                        {% elif order.user.userprofile %}
+                            {{ order.user.userprofile.name }}
+                        {% else %}
+                            {{ order.user.username }}
+                        {% endif %}
+                    </td>
+                    <td>{{ item.product.name }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>
+                        {% if order.payment_method == "Supercoins" %}
+                            {{ item.total_supercoins }} Supercoins
+                        {% else %}
+                            ₹{{ item.total_price }}
+                        {% endif %}
+                    </td>
+                    <td>
+                        <span class="status-badge status-pending">
+                            {{ order.status }}
+                        </span>
+                    </td>
+                    <td>{{ order.payment_method }}</td>
+                    <td>
+                        <form action="{% url 'recycler:update_order_status' order.id %}" method="POST" class="update-form">
+                            {% csrf_token %}
+                            <select name="status">
+                                {% for key, value in order.STATUS_CHOICES %}
+                                    <option value="{{ key }}" {% if order.status == key %}selected{% endif %}>
+                                        {{ value }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                            <button type="submit" class="update-btn">Update</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        {% empty %}
+            <tr>
+                <td colspan="7">No pending orders found.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% include 'recyclerfooter.html' %}

@@ -1,0 +1,379 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Admin Dashboard</title>
+    <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport" />
+    <link rel="icon" href="{% static 'img/kaiadmin/favicon.ico' %}" type="image/x-icon" />
+
+    <!-- Fonts and icons -->
+    <script src="{% static 'js/plugin/webfont/webfont.min.js' %}"></script>
+    <script>
+      WebFont.load({
+        google: { families: ["Public Sans:300,400,500,600,700"] },
+        custom: {
+          families: [
+            "Font Awesome 5 Solid",
+            "Font Awesome 5 Regular",
+            "Font Awesome 5 Brands",
+            "simple-line-icons",
+          ],
+          urls: ["{% static 'css/fonts.min.css' %}"],
+        },
+        active: function () {
+          sessionStorage.fonts = true;
+        },
+      });
+    </script>
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/plugins.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/kaiadmin.min.css' %}" />
+
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+    <link rel="stylesheet" href="{% static 'css/demo.css' %}" />
+  </head>
+  <body>
+    <div class="wrapper">
+      <!-- Sidebar -->
+      <div class="sidebar" data-background-color="dark">
+        <div class="sidebar-logo">
+          <!-- Logo Header -->
+          <div class="logo-header" data-background-color="dark">
+            <a href="{% url 'gadmin:gadminhome' %}" class="logo">
+              <h1 style="color: white; font-size: 28px; font-weight: bold; font-style: italic; font-family: 'Poppins', sans-serif; letter-spacing: 1px; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">
+                GreeNovate
+            </h1>
+            
+            </a>
+            <div class="nav-toggle">
+              <button class="btn btn-toggle toggle-sidebar">
+                <i class="gg-menu-right"></i>
+              </button>
+              <button class="btn btn-toggle sidenav-toggler">
+                <i class="gg-menu-left"></i>
+              </button>
+            </div>
+            <button class="topbar-toggler more">
+              <i class="gg-more-vertical-alt"></i>
+            </button>
+          </div>
+          <!-- End Logo Header -->
+        </div>
+        <div class="sidebar-wrapper scrollbar scrollbar-inner">
+          <div class="sidebar-content">
+            <ul class="nav nav-secondary">
+              <li class="nav-item active">
+                <a href="{% url 'gadmin:gadminhome' %}" class="nav-link">
+                  <i class="fas fa-home"></i>
+                  <p>Dashboard</p>
+                </a>
+              </li>
+              
+              <li class="nav-item active">
+                <a data-bs-toggle="collapse"
+                   href="#driverSubmenu"
+                   class="collapsed d-flex justify-content-between align-items-center"
+                   aria-expanded="false">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-user me-2"></i>
+                        <p class="mb-0">Driver</p>
+                    </div>
+                    <i class="fas fa-chevron-down"></i>
+                </a>
+                <div class="collapse" id="driverSubmenu">
+                    <ul class="nav flex-column" style="padding-left: 20px; margin-top: 5px;">
+                        <li class="nav-item" style="margin-bottom: 5px;">
+                            <a href="{% url 'gadmin:add_driver' %}" class="nav-link">
+                                <i class="fas fa-user-plus me-2"></i> Add Driver
+                            </a>
+                        </li>
+                        <li class="nav-item" style="margin-bottom: 5px;">
+                            <a href="{% url 'gadmin:view_driver' %}" class="nav-link">
+                                <i class="fas fa-list me-2"></i> Driver List
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="nav-item active">
+              <a data-bs-toggle="collapse"
+                 href="#recyclerSubmenu1"
+                 class="collapsed d-flex justify-content-between align-items-center"
+                 aria-expanded="false">
+                  <div class="d-flex align-items-center">
+                      <i class="fas fa-recycle me-2"></i>
+                      <p class="mb-0">Recycler</p>
+                  </div>
+                  <i class="fas fa-chevron-down"></i>
+              </a>
+              <div class="collapse" id="recyclerSubmenu1"> <!-- Changed ID -->
+                  <ul class="nav flex-column" style="padding-left: 20px; margin-top: 5px;">
+                      <li class="nav-item" style="margin-bottom: 5px;">
+                          <a href="{% url 'gadmin:add_recycler' %}" class="nav-link">
+                              <i class="fas fa-user-plus me-2"></i> Add Recycler
+                          </a>
+                      </li>
+                      <li class="nav-item" style="margin-bottom: 5px;">
+                          <a href="{% url 'gadmin:view_recycler' %}" class="nav-link">
+                              <i class="fas fa-list me-2"></i> Recycler List
+                          </a>
+                      </li>
+                  </ul>
+              </div>
+          </li>
+          <li class="nav-item active">
+            <a data-bs-toggle="collapse"
+               href="#garbageSubmenu1"  
+               class="collapsed d-flex justify-content-between align-items-center"
+               aria-expanded="false">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-trash me-2"></i> 
+                    <p class="mb-0">Manage Garbage</p>
+                </div>
+                <i class="fas fa-chevron-down"></i>
+            </a>
+            <div class="collapse" id="garbageSubmenu1"> <!-- Matching unique ID -->
+                <ul class="nav flex-column" style="padding-left: 20px; margin-top: 5px;">
+                    <li class="nav-item" style="margin-bottom: 5px;">
+                        <a href="{% url 'gadmin:manage_garbage' %}" class="nav-link">
+                            <i class="fas fa-eye me-2"></i> View Garbage
+                        </a>
+                    </li>
+                    <li class="nav-item" style="margin-bottom: 5px;">
+                        <a href="{% url 'gadmin:assigned_drivers_list' %}" class="nav-link">
+                            <i class="fas fa-truck me-2"></i> Assigned Driver
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+        
+        <li class="nav-item active">
+            <a data-bs-toggle="collapse"
+               href="#garbageSubmenu2"  
+               class="collapsed d-flex justify-content-between align-items-center"
+               aria-expanded="false">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-recycle me-2"></i> 
+                    <p class="mb-0">Recycling Request</p> 
+                </div>
+                <i class="fas fa-chevron-down"></i>
+            </a>
+            <div class="collapse" id="garbageSubmenu2"> <!-- Matching unique ID -->
+                <ul class="nav flex-column" style="padding-left: 20px; margin-top: 5px;">
+                    <li class="nav-item" style="margin-bottom: 5px;">
+                        <a href="{% url 'gadmin:manage_recycler_requests' %}" class="nav-link">
+                            <i class="fas fa-eye me-2"></i> View Requests
+                        </a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </li>
+
+        <li class="nav-item active">
+          <a href="{% url 'gadmin:view_recycledproducts' %}" class="nav-link">
+              <i class="fas fa-recycle me-2"></i> <!-- Recycled Products Icon -->
+              <p>Recycled Products</p>
+          </a>
+      </li>
+      <li class="nav-item active">
+        <a href="{% url 'gadmin:daily_report' %}" class="nav-link">
+            <i class="fas fa-file-alt me-2"></i> <!-- Daily Report Icon -->
+            <p>Daily Reports</p>
+        </a>
+    </li>
+        
+          <li class="nav-item active">
+            <a data-bs-toggle="collapse"
+               href="#complaintsSubmenu"
+               class="collapsed d-flex justify-content-between align-items-center"
+               aria-expanded="false">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-exclamation-circle me-2"></i> <!-- Updated Icon -->
+                    <p class="mb-0">Complaints</p>
+                </div>
+                <i class="fas fa-chevron-down"></i>
+            </a>
+            <div class="collapse" id="complaintsSubmenu"> <!-- Updated ID -->
+              <ul class="nav flex-column" style="padding-left: 20px; margin-top: 5px;">
+                  <li class="nav-item" style="margin-bottom: 5px;">
+                      <a href="{% url 'gadmin:view_residents_complaint' %}" class="nav-link">
+                          <i class="fas fa-users me-2"></i> <!-- Residents Complaints Icon -->
+                          Residents Complaints
+                      </a>
+                  </li>
+                  <li class="nav-item" style="margin-bottom: 5px;">
+                      <a href="{% url 'gadmin:view_collector_complaint' %}" class="nav-link">
+                          <i class="fas fa-truck me-2"></i> <!-- Driver Complaints Icon (Garbage Truck) -->
+                          Driver Complaints
+                      </a>
+                  </li>
+                  <li class="nav-item" style="margin-bottom: 5px;">
+                      <a href="{% url 'gadmin:view_recycler_complaints' %}" class="nav-link">
+                          <i class="fas fa-recycle me-2"></i> <!-- Recycler Complaints Icon (Recycling Symbol) -->
+                          Recycler Complaints
+                      </a>
+                  </li>
+              </ul>
+          </div>
+          
+        </li>
+        
+       
+
+     
+              <!-- Add more sidebar items here -->
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!-- End Sidebar -->
+
+      <div class="main-panel">
+        <div class="main-header">
+          <div class="main-header-logo">
+            <!-- Logo Header -->
+            <div class="logo-header" data-background-color="dark">
+              <a href="{% url 'gadmin:gadminhome' %}" class="logo">
+                <img
+                  src="{% static 'img/kaiadmin/logo_light.svg' %}"
+                  alt="navbar brand"
+                  class="navbar-brand"
+                  height="20"
+                />
+              </a>
+              <div class="nav-toggle">
+                <button class="btn btn-toggle toggle-sidebar">
+                  <i class="gg-menu-right"></i>
+                </button>
+                <button class="btn btn-toggle sidenav-toggler">
+                  <i class="gg-menu-left"></i>
+                </button>
+              </div>
+              <button class="topbar-toggler more">
+                <i class="gg-more-vertical-alt"></i>
+              </button>
+            </div>
+            <!-- End Logo Header -->
+          </div>
+
+         
+          <!-- Navbar Header -->
+          <nav class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom">
+            <div class="container-fluid">
+              <nav class="navbar navbar-header-left navbar-expand-lg navbar-form nav-search p-0 d-none d-lg-flex">
+                <!-- Add any left navbar content here -->
+              </nav>
+
+              <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
+                <!-- Messages Dropdown -->
+                <li class="nav-item topbar-icon dropdown hidden-caret">
+                  <a
+                    class="nav-link dropdown-toggle"
+                    href="#"
+                    id="messageDropdown"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    
+                  </a>
+                  <ul class="dropdown-menu messages-notif-box animated fadeIn" aria-labelledby="messageDropdown">
+                    <li>
+                      
+                    </li>
+                    <li>
+                      <div class="message-notif-scroll scrollbar-outer">
+                        <div class="notif-center">
+                          {% for message in messages %}
+                            <a href="#">
+                              <div class="notif-img">
+                                <img src="{{ message.user.profile_picture.url }}" alt="Img Profile" />
+                              </div>
+                              <div class="notif-content">
+                                <span class="subject">{{ message.user.username }}</span>
+                                <span class="block">{{ message.text }}</span>
+                                <span class="time">{{ message.time }}</span>
+                              </div>
+                            </a>
+                          {% endfor %}
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <a class="see-all" href="javascript:void(0);">See all messages<i class="fa fa-angle-right"></i></a>
+                    </li>
+                  </ul>
+                </li>
+
+                <!-- Notifications Dropdown -->
+                <li class="nav-item topbar-icon dropdown hidden-caret">
+                  <a
+                    class="nav-link dropdown-toggle"
+                    href="#"
+                    id="notifDropdown"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                   
+                  </a>
+                  <ul class="dropdown-menu notif-box animated fadeIn" aria-labelledby="notifDropdown">
+                    <li>
+                      <div class="dropdown-title">You have 4 new notifications</div>
+                    </li>
+                    <li>
+                      <div class="notif-scroll scrollbar-outer">
+                        <div class="notif-center">
+                          {% for notif in notifications %}
+                            <a href="#">
+                              <div class="notif-icon notif-primary">
+                                <i class="fa fa-user-plus"></i>
+                              </div>
+                              <div class="notif-content">
+                                <span class="block">{{ notif.message }}</span>
+                                <span class="time">{{ notif.time }}</span>
+                              </div>
+                            </a>
+                          {% endfor %}
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <a class="see-all" href="javascript:void(0);">See all notifications<i class="fa fa-angle-right"></i></a>
+                    </li>
+                  </ul>
+                </li>
+
+                <!-- Profile Icon -->
+                <li class="nav-item topbar-icon">
+                  <a href="#" class="nav-link">
+                    
+                  </a>
+                </li>
+
+                <!-- Logout Icon -->
+                <li class="nav-item topbar-icon">
+                  <a href="{% url 'gadmin:admin_logout' %}" class="nav-link">
+                      <i class="fa fa-sign-out-alt"></i>
+                  </a>
+              </li>
+              
+
+              </ul>
+            </div>
+          </nav>
+          <!-- End Navbar -->
+       <div>
+        </div>
+
+
+    
+

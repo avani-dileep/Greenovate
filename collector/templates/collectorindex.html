@@ -1,0 +1,60 @@
+{% load static %}
+{% include 'collectorheader.html' %}
+
+<main class="content">
+    <div class="container-fluid p-0">
+
+        <h1 class="h3 mb-3"><strong>Collector</strong> Dashboard</h1>
+
+        <div class="row mt-4">
+            <!-- View Pickup Section -->
+            <div class="col-md-6 mb-4">
+                <div class="card shadow-sm hover-shadow-lg border-light rounded">
+                    <div class="card-body text-center">
+                        <h5 class="card-title font-weight-bold text-primary">View Pickup</h5>
+                        <p class="text-muted mb-3">Check the scheduled pickups and manage collection tasks.</p>
+                        <a href="{% url 'collector:view_driver_pickups' %}" class="btn btn-primary w-100 py-2 font-weight-bold">View Pickup</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Section -->
+            <div class="col-md-6 mb-4">
+                <div class="card shadow-sm hover-shadow-lg border-light rounded">
+                    <div class="card-body text-center">
+                        <h5 class="card-title font-weight-bold text-warning">Profile</h5>
+                        <p class="text-muted mb-3">Update and manage your profile information.</p>
+                        <a href="{% url 'collector:collector_profile' %}" class="btn btn-warning w-100 py-2 font-weight-bold">View Profile</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <!-- Submit Complaints Section -->
+            <div class="col-md-6 mb-4">
+                <div class="card shadow-sm hover-shadow-lg border-light rounded">
+                    <div class="card-body text-center">
+                        <h5 class="card-title font-weight-bold text-danger">Submit Complaints</h5>
+                        <p class="text-muted mb-3">Report service issues or concerns for quick resolution.</p>
+                        <a href="{% url 'collector:submit_complaint' %}" class="btn btn-danger w-100 py-2 font-weight-bold">Submit Complaint</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- View Complaints Section -->
+            <div class="col-md-6 mb-4">
+                <div class="card shadow-sm hover-shadow-lg border-light rounded">
+                    <div class="card-body text-center">
+                        <h5 class="card-title font-weight-bold text-success">View Complaints</h5>
+                        <p class="text-muted mb-3">Check the complaints and respond accordingly.</p>
+                        <a href="{% url 'collector:view_complaint' %}" class="btn btn-success w-100 py-2 font-weight-bold">View Complaints</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+{% include 'collectorfooter.html' %}

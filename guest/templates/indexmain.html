@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to GreeNovate</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #A3D9A5, #8EC8A1); /* Light green gradient background */
+            background-size: 400% 400%; /* Creates an animated effect */
+            animation: gradientAnimation 10s ease infinite;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Ensures body takes up full viewport height */
+            color: #333;
+            overflow: hidden; /* Prevent scrolling */
+            flex-direction: column; /* Allows content to grow beyond the viewport */
+        }
+
+        @keyframes gradientAnimation {
+            0% { background-position: 100% 0; }
+            50% { background-position: 0 100%; }
+            100% { background-position: 100% 0; }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px; /* Adjusted to fit better */
+            background-color: white;
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            transform: translateY(-10px);
+            animation: fadeInUp 1s ease-out;
+            min-height: 100vh; /* Ensure content stays within full height */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* Center content vertically */
+        }
+
+        @keyframes fadeInUp {
+            0% { opacity: 0; transform: translateY(50px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        header {
+            background-color: #2a7f62;
+            color: white;
+            padding: 20px;
+            border-radius: 15px 15px 0 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 32px; /* Reduced font size */
+            margin-bottom: 10px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        header p {
+            font-size: 18px;
+            font-weight: 300;
+        }
+
+        .section {
+            margin-top: 20px;
+        }
+
+        .section h2 {
+            font-size: 24px; /* Reduced font size */
+            margin-bottom: 15px;
+            color: #2a7f62;
+            font-weight: 600;
+        }
+
+        .login-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .login-options div {
+            padding: 20px 40px; /* Reduced padding */
+            background-color: #27ae60;
+            color: white;
+            font-size: 18px; /* Reduced font size */
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 180px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .login-options div:hover {
+            background-color: #1f7c4d;
+            transform: scale(1.05);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        footer {
+            padding: 10px;
+            background-color: #2a7f62;
+            color: white;
+            font-size: 12px;
+            text-align: center;
+            border-radius: 0 0 15px 15px;
+        }
+
+        footer p {
+            margin-top: 5px;
+        }
+
+        /* Responsive styles for smaller screens */
+        @media (max-width: 768px) {
+            .login-options {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .login-options div {
+                width: 70%; /* Adjusted for smaller screens */
+                margin: 0 auto;
+            }
+        }
+
+        /* Additional Styles for Garbage Recycle Project Page */
+        .recycle-section {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .recycle-section h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #2a7f62;
+            font-weight: 600;
+        }
+
+        .recycle-section p {
+            font-size: 16px;
+            line-height: 1.5;
+            color: #555;
+        }
+
+        .recycle-section .recycle-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .recycle-section .recycle-stats div {
+            background-color: #27ae60;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            width: 160px;
+            margin: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .recycle-section .recycle-stats div h3 {
+            font-size: 20px; /* Reduced font size */
+            margin-bottom: 8px;
+        }
+
+        .recycle-section .recycle-stats div p {
+            font-size: 14px; /* Reduced font size */
+        }
+
+        .recycle-section .recycle-stats div:hover {
+            transform: scale(1.05);
+            transition: all 0.3s ease;
+        }
+
+        .recycle-section .recycle-cta {
+            margin-top: 30px;
+        }
+
+        .recycle-section .recycle-cta button {
+            padding: 12px 25px;
+            background-color: #2a7f62;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .recycle-section .recycle-cta button:hover {
+            background-color: #1f7c4d;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Welcome to GreeNovate</h1>
+            <p>Your journey towards a sustainable future starts here.</p>
+        </header>
+
+        <div class="section">
+            <h2>Choose your role to log in:</h2>
+            <div class="login-options">
+                <div onclick="window.location.href='{% url 'user:signin' %}'">Customer</div>
+                <div onclick="window.location.href='{% url 'customer:signin' %}'">Residents</div>
+                <div onclick="window.location.href='{% url 'gadmin:admin_signin' %}'">Admin</div>
+                <div onclick="window.location.href='{% url 'recycler:recycler_signin' %}'">Recyler</div>
+                <div onclick="window.location.href='{% url 'collector:driver_signin' %}'">Collector</div>
+
+            </div>
+        </div>
+
+        <!-- Garbage Recycle Project Section -->
+        <div class="recycle-section">
+            <h2>Garbage Recycle Project</h2>
+            <p>Join us in our mission to reduce waste and promote recycling. Together, we can make a difference for our planet.</p>
+            <div class="recycle-stats">
+                <div>
+                    <h3>500+</h3>
+                    <p>Recycling Points</p>
+                </div>
+                <div>
+                    <h3>10,000+</h3>
+                    <p>Recycled Items</p>
+                </div>
+                <div>
+                    <h3>1,000+</h3>
+                    <p>Active Users</p>
+                </div>
+            </div>
+            <div class="recycle-cta">
+                <button onclick="window.location.href='{% url 'user:guest' %}'">Learn More</button>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2025 GreeNovate. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+</html>
